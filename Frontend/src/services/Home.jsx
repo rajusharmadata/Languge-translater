@@ -3,111 +3,91 @@ import languages from '../db/languages'
 import Navbar from '../components/Navbar'
 import FeatureCard from '../components/FeatureCard'
 import { AppContext } from '../context/App'
+import axios from "axios";
 
 // Lucide React Icons
 import { ArrowRightLeft, Volume2, Copy, Star } from 'lucide-react'
 
 const Home = () => {
   // State variables for managing text and settings
-  const [sourceText, setSourceText] = useState('') // User input text
-  const [translatedText, setTranslatedText] = useState('') // Resulting translated text
-  const [sourceLang, setSourceLang] = useState('en') // Selected source language code
-  const [targetLang, setTargetLang] = useState('es') // Selected target language code
-  const [isTranslating, setIsTranslating] = useState(false) // Loader state while translating
-  const [copySuccess, setCopySuccess] = useState(false) // Copy feedback state
+  const [sourceText, setSourceText] = useState(''); // User input text
+  const [translatedText, setTranslatedText] = useState(''); // Resulting translated text
+  const [sourceLang, setSourceLang] = useState('en'); // Selected source language code
+  const [targetLang, setTargetLang] = useState('es'); // Selected target language code
+  const [isTranslating, setIsTranslating] = useState(false); // Loader state while translating
+  const [copySuccess, setCopySuccess] = useState(false); // Copy feedback state
 
   // Get context values with error handling
-  const context = useContext(AppContext)
-  const { isopen } = context || { isopen: false }
+  const context = useContext(AppContext);
+  const { isopen } = context || { isopen: false };
 
   // Handle translation (Mock API simulation for now)
+  // Handle translation (Real API + fallback)
   const handleTranslate = async () => {
-    if (!sourceText.trim()) return // Prevent empty translations
+    if (!sourceText.trim()) return; // Prevent empty translations
 
-    setIsTranslating(true) // Show loader
+    setIsTranslating(true); // Show loader
 
     try {
-      // Simulate API call delay
-      setTimeout(() => {
-        // Mock translations for demo purpose
-        const mockTranslations = {
-          Hello: { es: 'Hola', fr: 'Bonjour', de: 'Hallo', it: 'Ciao' },
-          'Good morning': {
-            es: 'Buenos días',
-            fr: 'Bonjour',
-            de: 'Guten Morgen',
-            it: 'Buongiorno',
-          },
-          'Thank you': {
-            es: 'Gracias',
-            fr: 'Merci',
-            de: 'Danke',
-            it: 'Grazie',
-          },
-          'How are you?': {
-            es: '¿Cómo estás?',
-            fr: 'Comment allez-vous?',
-            de: 'Wie geht es dir?',
-            it: 'Come stai?',
-          },
-          Welcome: {
-            es: 'Bienvenido',
-            fr: 'Bienvenue',
-            de: 'Willkommen',
-            it: 'Benvenuto',
-          },
-        }
+      // Optional: simulate 1s delay for loading animation
 
-        // Select translation or fallback to default format
-        const translation =
-          mockTranslations[sourceText]?.[targetLang] ||
-          `[Translated to ${
-            languages.find(l => l.code === targetLang)?.name || 'Unknown'
-          }]: ${sourceText}`
+      // API call
+      const response = await axios.post('/api/v1/translate', {
+        text: sourceText,
+        l1: sourceLang, // use dynamic selected lang
+        l2: targetLang,
+      });
+      console.log(response);
 
-        setTranslatedText(translation) // Save translated text
-        setIsTranslating(false) // Hide loader
-      }, 1000)
+      // If backend sends translation in response.data.translation
+      const translation =
+        response.data?.translated ||
+        `[Translated to ${
+          languages.find(l => l.code === targetLang)?.name || 'Unknown'
+        }]: ${sourceText}`;
+
+      setTranslatedText(translation);
     } catch (error) {
-      console.error('Translation error:', error)
-      setIsTranslating(false)
-      setTranslatedText('Translation failed. Please try again.')
+      console.error('Translation error:', error);
+      setTranslatedText('Translation failed. Please try again.');
+    } finally {
+      setIsTranslating(false);
     }
-  }
+  };
 
   // Swap source and target languages
   const swapLanguages = () => {
-    const temp = sourceLang
-    setSourceLang(targetLang)
-    setTargetLang(temp)
-    setSourceText(translatedText)
-    setTranslatedText(sourceText)
-  }
+    const temp = sourceLang;
+    setSourceLang(targetLang);
+    setTargetLang(temp);
+    setSourceText(translatedText);
+    setTranslatedText(sourceText);
+  };
 
   // Copy text to clipboard with feedback
   const copyToClipboard = async text => {
     try {
       // Check if clipboard API is available
       if (navigator.clipboard && navigator.clipboard.writeText) {
-        await navigator.clipboard.writeText(text)
+        await navigator.clipboard.writeText(text);
       } else {
         // Fallback for older browsers
-        const textArea = document.createElement('textarea')
-        textArea.value = text
-        document.body.appendChild(textArea)
-        textArea.select()
-        document.execCommand('copy')
-        document.body.removeChild(textArea)
+        const textArea = document.createElement('textarea');
+        textArea.value = text;
+        document.body.appendChild(textArea);
+        textArea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textArea);
       }
 
       // Show success feedback
-      setCopySuccess(true)
-      setTimeout(() => setCopySuccess(false), 2000)
+      setCopySuccess(true);
+      setTimeout(() => setCopySuccess(false), 2000);
     } catch (error) {
-      console.error('Copy failed:', error)
+      console.error('Copy failed:', error);
       // Could add error toast here
     }
-  }
+  };
 
   // Play audio pronunciation of text with error handling
   const playAudio = (text, lang) => {
@@ -115,30 +95,29 @@ const Home = () => {
       // Check if speech synthesis is supported
       if ('speechSynthesis' in window && 'SpeechSynthesisUtterance' in window) {
         // Cancel any ongoing speech
-        speechSynthesis.cancel()
+        speechSynthesis.cancel();
 
-        const utterance = new SpeechSynthesisUtterance(text)
-        utterance.lang = lang
-        utterance.rate = 0.8 // Slightly slower for better comprehension
-        utterance.volume = 0.8
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = lang;
+        utterance.rate = 0.8; // Slightly slower for better comprehension
+        utterance.volume = 0.8;
 
         // Handle speech errors
         utterance.onerror = event => {
-          console.error('Speech synthesis error:', event.error)
-        }
+          console.error('Speech synthesis error:', event.error);
+        };
 
-        speechSynthesis.speak(utterance)
+        speechSynthesis.speak(utterance);
       } else {
-        console.warn('Speech synthesis not supported in this browser')
+        console.warn('Speech synthesis not supported in this browser');
       }
     } catch (error) {
-      console.error('Audio playback error:', error)
+      console.error('Audio playback error:', error);
     }
-  }
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-gray-800 overflow-hidden">
-
       {/* Navbar component */}
       <Navbar />
 
@@ -179,7 +158,7 @@ const Home = () => {
         </div>
 
         {/* Translation Interface Container */}
-        <div className="max-w-4xl mx-auto px-2 sm:px-0">
+        <div className="max-w-7xl mx-auto px-2 sm:px-0 ">
           <div className="bg-white/10 backdrop-blur-lg rounded-2xl sm:rounded-3xl p-4 sm:p-6 lg:p-8 border border-white/20 shadow-2xl">
             {/* Language Selection Controls */}
             <div className="flex flex-col sm:flex-row items-center justify-between mb-4 sm:mb-6 space-y-4 sm:space-y-0">
@@ -241,7 +220,7 @@ const Home = () => {
             </div>
 
             {/* Text Input and Output Grid */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6 ">
               {/* Source Text Input Section */}
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
@@ -267,7 +246,7 @@ const Home = () => {
                   value={sourceText}
                   onChange={e => setSourceText(e.target.value)}
                   placeholder="Type or paste text here..."
-                  className="w-full h-24 sm:h-32 bg-white/5 border border-white/20 rounded-lg sm:rounded-xl p-3 sm:p-4 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-gray-500 resize-none text-sm sm:text-base"
+                  className="w-full h-56  bg-white/5 border border-white/20 rounded-lg sm:rounded-xl p-3 sm:p-4 text-white placeholder-white/40 focus:outline-none focus:ring-2 focus:ring-gray-500 resize-none text-sm sm:text-base"
                   maxLength={5000}
                 />
               </div>
@@ -301,7 +280,7 @@ const Home = () => {
                     </div>
                   )}
                 </div>
-                <div className="w-full h-24 sm:h-32 bg-white/5 border border-white/20 rounded-lg sm:rounded-xl p-3 sm:p-4 text-white overflow-y-auto text-sm sm:text-base">
+                <div className="w-full h-56  bg-white/5 border border-white/20 rounded-lg sm:rounded-xl p-3 sm:p-4 text-white overflow-y-auto text-sm sm:text-base">
                   {isTranslating ? (
                     // Translation loading animation
                     <div className="flex items-center space-x-2">
@@ -353,7 +332,7 @@ const Home = () => {
         </div>
       )}
     </div>
-  )
+  );
 }
 
 export default Home

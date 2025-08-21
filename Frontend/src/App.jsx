@@ -3,20 +3,25 @@ import {BrowserRouter,Routes,Route} from "react-router-dom"
 import Home from './services/Home';
 import About from './services/About';
 import Price from './services/Price';
+import Sinup from './services/Sinup';
+import Sinin from './services/Sinin';
 
 
 const App = () => {
   return (
     <>
-      <BrowserRouter>
+
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/pricing" element={<Price />} />
+          <Route path='/' element={<Home />} />
+          <Route path='/about' element={<About />} />
+          <Route path='/pricing' element={<Price />} />
+          <Route path='/signup' element={<Sinup />} />
+          <Route path='/signin' element={<Sinin />} />
         </Routes>
-      </BrowserRouter>
+      
     </>
-  )
+
+  );
 };
 
 export default App;
