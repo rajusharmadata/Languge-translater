@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import {useNavigate} from 'react-router-dom'
-
+import { useNavigate } from 'react-router-dom'
+import { HiEye, HiEyeOff } from 'react-icons/hi';
+import { TbPasswordUser, TbPasswordFingerprint,TbMail } from 'react-icons/tb';
 const Signup = () => {
   const [formdata, setFormdata] = useState({
     email: "",
     name: "",
     password:"",
   });
+  const [showPassowrd,setShowPassword] = useState(false)
   const naviagte = useNavigate();
 
   const onChangeHandler = (event) => {
@@ -34,7 +36,7 @@ const Signup = () => {
     event.preventDefault();// page reload nhi hone dega
     console.log(formdata);// cheak
     axiosHandler()
-    naviagte('/varific')
+    naviagte('/verify');
 
   }
 
@@ -43,20 +45,31 @@ const Signup = () => {
       <div className='w-96 py-10 bg-gradient-to-br from-black via-gray-900 to-gray-800 shadow-lg rounded-2xl p-6'>
         <h2 className='text-2xl font-semibold text-center text-white mb-6'>Sign Up</h2>
         <form onSubmit={submitHandler}>
-          <label htmlFor='email' className='block text-sm font-medium text-gray-100 mb-2'>
-            Email Address
-          </label>
-          <input
-            type='email'
-            id='email'
-            name='email'
-            placeholder='example@gmail.com'
-            value={formdata.email}
-            onChange={onChangeHandler}
-            className='w-full px-3 py-2 border border-gray-300 outline-none transition text-white'
-          />
-          <label htmlFor='name' className='block text-sm font-medium text-gray-100 mb-2'>
+          <div>
+            <label
+              htmlFor='email'
+              className='block text-sm font-medium relative text-gray-300 mb-2'
+            >
+              Email Address
+              <span className='absolute top-10 left-0.5 px-1.5'>
+                <TbMail size={20} />
+              </span>
+            </label>
+            <input
+              type='email'
+              id='email'
+              name='email'
+              placeholder='example@gmail.com'
+              value={formdata.email}
+              onChange={onChangeHandler}
+              className='w-full px-4 pl-8 py-2 rounded-lg bg-gray-900/60 border border-gray-700 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:outline-none'
+            />
+          </div>
+          <label htmlFor='name' className='block  relative text-sm font-medium text-gray-100 mb-2'>
             Name
+            <span className='absolute top-10 left-0.5 px-1.5'>
+              <TbPasswordUser size={20} />
+            </span>
           </label>
           <input
             type='text'
@@ -65,24 +78,36 @@ const Signup = () => {
             placeholder='johan Don'
             value={formdata.name}
             onChange={onChangeHandler}
-            className='w-full px-3 py-2 border border-gray-300 outline-none transition text-white'
+            className='w-full px-4 pl-8 py-2 rounded-lg bg-gray-900/60 border border-gray-700 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:outline-none'
           />
-          <label htmlFor='password' className='block text-sm font-medium text-gray-100 mb-2'>
-            Password
-          </label>
-          <input
-            type='password'
-            id='password'
-            name='password'
-            placeholder='password'
-            value={formdata.password}
-            onChange={onChangeHandler}
-            className='w-full px-3 py-2 border border-gray-300 outline-none transition text-white'
-          />
+          <div className='relative'>
+            <label htmlFor='password' className='block text-sm font-medium text-gray-300 mb-2'>
+              Password
+            </label>
+            <input
+              type={!showPassowrd ? 'password' : 'text'}
+              id='password'
+              name='password'
+              placeholder='••••••••'
+              value={formdata.password}
+              onChange={onChangeHandler}
+              className='w-full px-4 pl-8 py-2 rounded-lg bg-gray-900/60 border border-gray-700 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:outline-none'
+            />
+            <span
+              className='absolute top-10 right-3 text-white cursor-pointer'
+              onClick={() => setShowPassword(!showPassowrd)}
+            >
+              {!showPassowrd ? <HiEye size={18} /> : <HiEyeOff size={18} />}
+            </span>
+            <span className='absolute top-10 left-0.5 px-1.5  text-white'>
+              <TbPasswordFingerprint size={20} />
+            </span>
+          </div>
 
           <button className='my-6 w-full bg-blue-600 text-white py-2   rounded-lg hover:bg-blue-700 transition'>
             Continue
           </button>
+          <p className='text-white pl-12'> if you allredy Account then go to <span className='text-gray-300 hover:opacity-70 cursor-pointer' onClick={()=>naviagte('/signin')}>Signin</span></p>
         </form>
       </div>
     </div>

@@ -67,27 +67,87 @@ const Verifyotp = async (req, res) => {
     return res.status(400).json({ success: false, message: "Email & OTP are required" });
   }
 
-  const stored = otpStore.get(email);
+  const stored = await User.findOne({ email });
+
 
   // Check if OTP exists
-  if (!stored) {
+  if (!stored.otp) {
     return res.status(400).json({ success: false, message: "OTP not found or expired" });
   }
+  // console.log(stored.otp);
 
   // Check expiry
-  if (Date.now() > stored.expires) {
-    otpStore.delete(email);
-    return res.status(400).json({ success: false, message: "OTP expired" });
+  console.log(stored);
+  if (Date.now() > stored.otpExpires) {
+    // stored.delete(email);
+    return res.status(400).json({ success: false, message: 'OTP expired' });
   }
-
+  const isMatch = await bcrypt.compare(String(otp), stored.otp);
   // Check match
-  if (stored.otp !== otp) {
+  if (isMatch) {
     return res.status(400).json({ success: false, message: "Invalid OTP" });
   }
 
   // ✅ OTP Verified
-  otpStore.delete(email); // remove after success
+  stored.otp = undefined;
+  stored.isActive = true;
+  await stored.save()
+
   res.json({ success: true, message: "OTP verified successfully" });
 };
 
-export { EmailVerification };
+const Singin = async (req, res) => {
+  const { email, password } = req.body;
+  try {
+    if (!email || !password) {
+      return res.status(409).json({
+        success: false,
+        message:" must be all data is required "
+    })
+    }
+    // cheak user exist aur not
+    const existUser = await User.findOne({ email });
+    if (!existUser || !existUser.isActive) {
+      return res.status(403).json({
+        success: false,
+        message:"not a valid user "
+      })
+    }
+
+    // check the exist user password match
+    const isMatch = await existUser.comparePassword(password);
+    if (!isMatch) {
+      res.status(401).json({
+        success: false,
+        message:"password is wrong "
+      })
+    }
+    // payload means which data in include in token
+    const payload = {
+      name: existUser.name,
+      email: existUser.email,
+      isActive: existUser.isActive,
+    }
+    // generate token
+    const token = existUser.generatejwToken(payload);
+    res.status(202).json({
+      success: true,
+      message: "successfully Sining",
+      Token:token,
+      data: {
+        name: existUser.name,
+        email: existUser.email,
+        isActive: existUser.isActive,
+      }
+    })
+
+  } catch (error) {
+    console.error(`signin error ${error}`);
+    res.status(500).json({
+      success: false,
+      message: error.message,
+    })
+  }
+}
+
+export { EmailVerification, Verifyotp ,Singin};
