@@ -1,10 +1,10 @@
 import React from 'react'
 import { Globe, Zap, Shield, Users } from 'lucide-react'
-import Footer from './Footer'
+
 
 const About = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-b from-black via-gray-900 to-black text-white px-6 py-16">
+    <div className="  text-white px-6 ">
       <div className="max-w-4xl mx-auto text-center">
         <h1 className="text-4xl font-bold mb-4">About Our Translator</h1>
         <p className="text-lg text-gray-300 mb-12">
@@ -49,13 +49,9 @@ const About = () => {
         </div>
 
         <div className="mt-16">
-          <p className="text-gray-400">
-            Built with ❤️ for people who believe language should never be a
-            barrier.
-          </p>
+        
               </div>
               <div className='mt-10'>
-                  <Footer/>
         </div>
       </div>
     </div>

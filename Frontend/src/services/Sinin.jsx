@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { HiEye, HiEyeOff } from 'react-icons/hi';
 import { TbPasswordUser, TbPasswordFingerprint } from 'react-icons/tb';
+import { useLocation } from 'react-router-dom';
 
 const Sinin = () => {
   const [formdata, setFormdata] = useState({
@@ -11,6 +12,11 @@ const Sinin = () => {
   });
   const[showPassowrd,setShowPassword] = useState(false)
   const naviagte = useNavigate();
+  const location = useLocation();
+
+  // ✅ read query params
+  const params = new URLSearchParams(location.search);
+  const redirectUrl = params.get('redirect_url') || '/translate';
 
   const onChangeHandler = event => {
     const { name, value } = event.target;
@@ -21,11 +27,13 @@ const Sinin = () => {
   // post api
   const axiosHandler = async () => {
     try {
-      const response = axios.post('/api/v1//signin', {
+      const response = axios.post('/api/v1/signin', {
         email: formdata.email,
         password: formdata.password,
       });
       console.log(response);
+    naviagte(redirectUrl);
+
     } catch (error) {
       console.log(error);
     }
@@ -35,7 +43,6 @@ const Sinin = () => {
     event.preventDefault(); // page reload nhi hone dega
     console.log(formdata); // cheak
     axiosHandler();
-    naviagte('/translate');
   };
  return (
    <div className='h-screen flex justify-center items-center bg-gradient-to-br from-gray-900 via-black to-gray-800'>
