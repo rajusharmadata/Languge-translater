@@ -1,5 +1,6 @@
 import express from 'express'
 import dotenv from 'dotenv'
+import Razorpay from 'razorpay';
 import { dbConnection } from './db/db.js';
 const app = express();
 import {router} from "./router/api.router.js"
@@ -11,6 +12,11 @@ app.use(express.json())
 app.get('/', (req, res) => {
     res.send("<H1>Backend is working </H1>")
 })
+// Razorpay setup route
+ export const razorpay = new Razorpay({
+  key_id:process.env,
+  key_secret: process.env,
+});
 
 // Dbconection
 dbConnection();
