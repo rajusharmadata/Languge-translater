@@ -10,7 +10,7 @@ const userSchema = new mongoose.Schema(
       required: [true, 'Email is required'],
       lowercase: true,
       trim: true,
-      unique: true, // ✅ good practice
+      unique: true,
     },
     name: {
       type: String,
@@ -28,9 +28,12 @@ const userSchema = new mongoose.Schema(
     },
     isActive: {
       type: Boolean,
-      required:true,
+      required: true,
       default: false,
     },
+    isPremium: { type: Boolean, default: false },
+    subscriptionEndDate: Date,
+    planType: String, // 'monthly' or 'yearly'
   },
   {
     timestamps: true,
@@ -64,5 +67,14 @@ userSchema.methods.generatejwToken = async function (payload) {
     console.log(`token generate error ${err}`);
   }
 }
+// Add this method to your userSchema (after your existing methods)
+userSchema.methods.checkSubscriptionStatus = function() {
+  if (this.subscriptionEndDate && this.subscriptionEndDate > new Date()) {
+    this.isPremium = true;
+  } else {
+    this.isPremium = false;
+  }
+  return this.isPremium;
+};
 const User = mongoose.model('User', userSchema);
 export default User;

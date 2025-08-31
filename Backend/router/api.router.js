@@ -1,6 +1,7 @@
-import {Router} from "express"
+import { Router } from 'express';
 import { translateController } from '../controller/api.controller.js';
-import { EmailVerification,Verifyotp,Singin } from '../controller/user.controller.js';
+import { EmailVerification, Verifyotp, Singin } from '../controller/user.controller.js';
+import { createOrder, verifypayment, checkSubscription } from '../controller/payment.controller.js';
 
 const router = Router();
 
@@ -14,4 +15,11 @@ router.post('/verify', Verifyotp);
 // route for the Singin
 router.post('/signin', Singin);
 
-export {router}
+// Payment routes
+router.post('/create-order', createOrder);
+router.post('/verify-payment', verifypayment);
+
+// Optional: Check subscription status
+router.get('/subscription/:userId', checkSubscription);
+
+export { router };
