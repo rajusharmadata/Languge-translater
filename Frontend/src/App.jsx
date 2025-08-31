@@ -14,26 +14,31 @@ import ContactUs from './components/ContactUs';
 import TermsConditions from './components/TermsConditions';
 import ForgotPassword from './services/ForgotPassword';
 import UpgradeButton from './components/UpgradeButton';
+import NotFound from './components/NotFound';
+import PrivateRoute from './components/PrivateRoute';
 
 
 const App = () => {
   return (
     <>
       <Routes>
+        <Route element={<PrivateRoute />}>
+          <Route path='/translate' element={<Translate />} />
+        </Route>
         <Route path='/' element={<Home />} />
         <Route path='/#about' element={<About />} />
         <Route path='/#pricing' element={<Price />} />
         <Route path='/signup' element={<Sinup />} />
         <Route path='/signin' element={<Sinin />} />
         <Route path='/verify' element={<VerifyOtp />} />
-        <Route path='/translate' element={<Translate />} />
-        <Route path='/contact-us' element={<ContactUs/>} />
-        <Route path='/shipping-policy' element={<ShippingPolicy/>} />
-        <Route path='/terms-and-conditions' element={<TermsConditions/>} />
+        <Route path='/contact-us' element={<ContactUs />} />
+        <Route path='/shipping-policy' element={<ShippingPolicy />} />
+        <Route path='/terms-and-conditions' element={<TermsConditions />} />
         <Route path='/cancellations-refunds' element={<CancellationsRefunds />} />
         <Route path='/privacy-policy' element={<PrivacyPolicy />} />
         <Route path='/frogetPassword' element={<ForgotPassword />} />
-        <Route path='/upgrade' element = {<UpgradeButton/>}/>
+        <Route path='/upgrade' element={<UpgradeButton />} />
+        <Route path='*' element={<NotFound />} />
       </Routes>
     </>
   );

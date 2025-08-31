@@ -1,6 +1,5 @@
 import Navbar from '../components/Navbar';
 import FeatureCard from '../components/FeatureCard';
-import { AppContext } from '../context/App';
 import About from './About';
 import image from '../assets/image.png';
 

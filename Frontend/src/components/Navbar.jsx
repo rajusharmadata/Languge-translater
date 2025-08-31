@@ -3,11 +3,11 @@ import { Link } from 'react-router-dom'
 import { Globe,  } from 'lucide-react'
 import { CiMenuFries } from 'react-icons/ci'
 import { IoMdClose } from 'react-icons/io'
-import { AppContext } from '../context/App'
+import { AuthContext } from '../context/authcontext'
 
 
 const Navbar = () => {
-  const { isopen, setIsOpen } = useContext(AppContext)
+  const { isopen, setIsOpen } = useContext(AuthContext)
 
 
   return (

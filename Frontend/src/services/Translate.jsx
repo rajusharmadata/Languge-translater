@@ -2,7 +2,8 @@ import React, { useContext, useState } from 'react';
 import languages from '../db/languages';
 import Navbar from '../components/Navbar';
 import FeatureCard from '../components/FeatureCard';
-import { AppContext } from '../context/App';
+import { AuthContext } from '../context/authcontext';
+
 import axios from 'axios';
 
 // Lucide React Icons
@@ -22,7 +23,7 @@ const Translate = () => {
   const [user, setUser] = useState({ isPremium: false, _id: '68b3f3a343ff631336558140' }); // Replace with actual user from context
 
   // Get context values with error handling
-  const context = useContext(AppContext);
+  const context = useContext(AuthContext);
   const { isopen } = context || { isopen: false };
 
   // Premium plans

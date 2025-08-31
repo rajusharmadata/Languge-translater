@@ -28,17 +28,21 @@ const Sinin = () => {
   // post api
   const axiosHandler = async () => {
     try {
-      const response = axios.post('/api/v1/signin', {
+      const response = await axios.post('/api/v1/signin', {
         email: formdata.email,
         password: formdata.password,
       });
-      console.log(response);
-    naviagte(redirectUrl);
+
+      // Axios response ke andar data hota hai
+      const data = response;
+      console.log(data);
+
 
     } catch (error) {
-      console.log(error);
+      console.error('Error during login:', error);
     }
   };
+
 
   const submitHandler = event => {
     event.preventDefault(); // page reload nhi hone dega

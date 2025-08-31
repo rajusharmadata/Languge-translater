@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { translateController } from '../controller/api.controller.js';
-import { EmailVerification, Verifyotp, Singin } from '../controller/user.controller.js';
+import { EmailVerification, Verifyotp, Singin,verified, logout } from '../controller/user.controller.js';
 import { createOrder, verifypayment, checkSubscription } from '../controller/payment.controller.js';
 import { authMiddleware } from '../middleware/auth.middleware.js';
 const router = Router();
@@ -29,5 +29,9 @@ router.get('/translate', authMiddleware, (req, res) => {
     message:'user is valid '
   })
 })
+// virifyuser route
+router.get('/auth', verified);
+// logout route
+router.post('/logout',logout)
 
 export { router };

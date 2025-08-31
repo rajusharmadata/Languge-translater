@@ -138,7 +138,7 @@ const Singin = async (req, res) => {
       secure: process.env.NODE_ENV === 'production', // only https in prod
       sameSite: 'strict',
     });
-    
+
     res.status(202).json({
       success: true,
       message: "successfully Sining",
@@ -159,4 +159,37 @@ const Singin = async (req, res) => {
   }
 }
 
-export { EmailVerification, Verifyotp ,Singin};
+const verified = async (req, res) => {
+   const token = req.cookies.token;
+   if (!token) {
+     return res.status(403).json({ success: false, message: 'No token provided' });
+   }
+
+   try {
+     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+     const user = await User.findOne({ email: decoded.email });
+     if (!user || !user.isActive) {
+       return res.status(403).json({ success: false, message: 'Invalid user' });
+     }
+     res.json({
+       success: true,
+       authenticated: true,
+       user: {
+         name: user.name,
+         email: user.email,
+         isActive: user.isActive,
+         isPremium: user.isPremium,
+         planType: user.planType,
+       },
+     });
+   } catch (error) {
+     res.status(401).json({ success: false, message: 'Invalid token' });
+   }
+}
+
+const logout = async (req, res)=>{
+  res.clearCookie('token');
+  res.json({ success: true, message: 'Logged out' });
+}
+
+export { EmailVerification, Verifyotp, Singin, verified ,logout};
