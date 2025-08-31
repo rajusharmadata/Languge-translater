@@ -2,7 +2,7 @@ import { Router } from 'express';
 import { translateController } from '../controller/api.controller.js';
 import { EmailVerification, Verifyotp, Singin } from '../controller/user.controller.js';
 import { createOrder, verifypayment, checkSubscription } from '../controller/payment.controller.js';
-
+import { authMiddleware } from '../middleware/auth.middleware.js';
 const router = Router();
 
 router.post('/translate', translateController);
@@ -21,5 +21,13 @@ router.post('/verify-payment', verifypayment);
 
 // Optional: Check subscription status
 router.get('/subscription/:userId', checkSubscription);
+
+// proteced route
+router.get('/translate', authMiddleware, (req, res) => {
+  res.json({
+    success:true,
+    message:'user is valid '
+  })
+})
 
 export { router };

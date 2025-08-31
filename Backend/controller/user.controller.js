@@ -127,9 +127,18 @@ const Singin = async (req, res) => {
       name: existUser.name,
       email: existUser.email,
       isActive: existUser.isActive,
-    }
+      isPremium: existUser.isPremium,
+      subscriptionEndDate: existUser.subscriptionEndDate,
+      planType:existUser.planType,
+    };
     // generate token
     const token = existUser.generatejwToken(payload);
+    res.cookie('token', token, {
+      httpOnly: true, // JS se access nahi kar paega
+      secure: process.env.NODE_ENV === 'production', // only https in prod
+      sameSite: 'strict',
+    });
+    
     res.status(202).json({
       success: true,
       message: "successfully Sining",
