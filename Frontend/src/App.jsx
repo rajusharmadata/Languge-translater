@@ -12,6 +12,7 @@ import CancellationsRefunds from './components/CancellationsRefunds';
 import PrivacyPolicy from './components/PrivacyPolicy';
 import ContactUs from './components/ContactUs';
 import TermsConditions from './components/TermsConditions';
+import ForgotPassword from './services/ForgotPassword';
 
 
 const App = () => {
@@ -30,6 +31,7 @@ const App = () => {
         <Route path='/terms-and-conditions' element={<TermsConditions/>} />
         <Route path='/cancellations-refunds' element={<CancellationsRefunds />} />
         <Route path='/privacy-policy' element={<PrivacyPolicy />} />
+        <Route path='/frogetPassword' element = {<ForgotPassword/>}/>
       </Routes>
     </>
   );

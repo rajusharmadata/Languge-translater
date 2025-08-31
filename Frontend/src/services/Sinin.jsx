@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { HiEye, HiEyeOff } from 'react-icons/hi';
 import { TbPasswordUser, TbPasswordFingerprint } from 'react-icons/tb';
 import { useLocation } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const Sinin = () => {
   const [formdata, setFormdata] = useState({
@@ -82,6 +83,9 @@ const Sinin = () => {
              onChange={onChangeHandler}
              className='w-full px-4 pl-6 py-2 rounded-lg bg-gray-900/60 border border-gray-700 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:outline-none'
            />
+           <Link to = '/frogetPassword'>
+             FrogotPassword
+           </Link>
            <span
              className='absolute top-10 right-3 text-white cursor-pointer'
              onClick={() => setShowPassword(!showPassowrd)}

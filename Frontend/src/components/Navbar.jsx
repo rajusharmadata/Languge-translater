@@ -65,7 +65,7 @@ const Navbar = () => {
               {/* Side Menu */}
               <div className='relative w-64 h-full text-white bg-gradient-to-br from-black via-gray-900 to-gray-800 p-6 space-y-4'>
                 <div className='flex justify-between'>
-                  <h1 className='font-bold text-3xl' >TransLingo</h1>
+                  <h1 className='font-bold text-3xl'>TransLingo</h1>
                   <button className='cursor-pointer' onClick={() => setIsOpen(!isopen)}>
                     <IoMdClose size={18} className='  border border-gray-500 rounded-sm ml-10 ' />
                   </button>
@@ -85,6 +85,41 @@ const Navbar = () => {
                   >
                     About
                   </a>
+                  <Link
+                    to='/contact-us'
+                    className='w-full bg-gray-800 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:from-gray-500 hover:via-gray-600 hover:to-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-300 transition-all duration-300 cursor-pointer'
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Contact-us
+                  </Link>
+                  <Link
+                    to='/shipping-policy'
+                    className='w-full bg-gray-800 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:from-gray-500 hover:via-gray-600 hover:to-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-300 transition-all duration-300 cursor-pointer'
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Shipping-policy
+                  </Link>
+                  <Link
+                    to='/terms-and-conditions'
+                    className='w-full bg-gray-800 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:from-gray-500 hover:via-gray-600 hover:to-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-300 transition-all duration-300 cursor-pointer'
+                    onClick={() => setIsOpen(false)}
+                  >
+                    Terms-and-conditions
+                  </Link>
+                  <Link
+                    to='/cancellations-refunds'
+                    className='w-full bg-gray-800 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:from-gray-500 hover:via-gray-600 hover:to-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-300 transition-all duration-300 cursor-pointer'
+                    onClick={() => setIsOpen(false)}
+                  >
+                    cancellations-refunds
+                  </Link>
+                  <Link
+                    to='/privacy-policy'
+                    className='w-full bg-gray-800 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:from-gray-500 hover:via-gray-600 hover:to-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-300 transition-all duration-300 cursor-pointer'
+                    onClick={() => setIsOpen(false)}
+                  >
+                    privacy-policy
+                  </Link>
                   <button
                     className=' className="w-full bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:from-purple-600 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-purple-400 transition-all duration-300  cursor-pointer'
                     onClick={() => setIsOpen(false)}
