@@ -132,12 +132,12 @@ const Singin = async (req, res) => {
       planType:existUser.planType,
     };
     // generate token
-    const token = existUser.generatejwToken(payload);
-    res.cookie('token', token, {
-      httpOnly: true, // JS se access nahi kar paega
-      secure: process.env.NODE_ENV === 'production', // only https in prod
-      sameSite: 'strict',
-    });
+    const token =  await existUser.generatejwToken(payload);
+  res.cookie('token', token, {
+    httpOnly: true,
+    secure: false, // true if HTTPS
+    sameSite: 'lax', // or "none" if frontend/backend on diff domains
+  });
 
     res.status(202).json({
       success: true,
@@ -159,37 +159,13 @@ const Singin = async (req, res) => {
   }
 }
 
-const verified = async (req, res) => {
-   const token = req.cookies.token;
-   if (!token) {
-     return res.status(403).json({ success: false, message: 'No token provided' });
-   }
 
-   try {
-     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-     const user = await User.findOne({ email: decoded.email });
-     if (!user || !user.isActive) {
-       return res.status(403).json({ success: false, message: 'Invalid user' });
-     }
-     res.json({
-       success: true,
-       authenticated: true,
-       user: {
-         name: user.name,
-         email: user.email,
-         isActive: user.isActive,
-         isPremium: user.isPremium,
-         planType: user.planType,
-       },
-     });
-   } catch (error) {
-     res.status(401).json({ success: false, message: 'Invalid token' });
-   }
-}
+
+
 
 const logout = async (req, res)=>{
   res.clearCookie('token');
   res.json({ success: true, message: 'Logged out' });
 }
 
-export { EmailVerification, Verifyotp, Singin, verified ,logout};
+export { EmailVerification, Verifyotp, Singin, logout };
