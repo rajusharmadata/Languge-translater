@@ -13,9 +13,9 @@ import PrivacyPolicy from './components/PrivacyPolicy';
 import ContactUs from './components/ContactUs';
 import TermsConditions from './components/TermsConditions';
 import ForgotPassword from './services/ForgotPassword';
-import UpgradeButton from './components/UpgradeButton';
 import NotFound from './components/NotFound';
 import PrivateRoute from './components/PrivateRoute';
+import Payment from './services/Payment';
 
 
 const App = () => {
@@ -37,7 +37,7 @@ const App = () => {
         <Route path='/cancellations-refunds' element={<CancellationsRefunds />} />
         <Route path='/privacy-policy' element={<PrivacyPolicy />} />
         <Route path='/frogetPassword' element={<ForgotPassword />} />
-        <Route path='/upgrade' element={<UpgradeButton />} />
+        <Route path='/payment' element= {<Payment/>}/>
         <Route path='*' element={<NotFound />} />
       </Routes>
     </>

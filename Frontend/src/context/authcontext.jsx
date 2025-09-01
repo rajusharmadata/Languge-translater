@@ -1,5 +1,9 @@
-import React, { createContext, useState, useEffect } from 'react';
+import React, { createContext, useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
+
+// Configure axios defaults
+axios.defaults.withCredentials = true;
+axios.defaults.baseURL = 'http://localhost:8080';
 
 export const AuthContext = createContext();
 
@@ -7,68 +11,96 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [isopen, setIsOpen] = useState(false)
+  const [isopen, setIsOpen] = useState(false);
 
-
-  // Check authentication on mount
-  useEffect(() => {
-    const verifyAuth = async () => {
-      try {
-        const res = await axios.get('/api/v1/auth', {
-          withCredentials: true,
-        });
-        if (res.data.success && res.data.authenticated) {
-          setIsAuthenticated(true);
-          setUser(res.data.user);
-        } else {
-          setIsAuthenticated(false);
-          setUser(null);
-        }
-      } catch (error) {
-        console.error(
-          'Authentication verification failed:',
-          error.response?.data?.message || error.message
-        );
-        setIsAuthenticated(false);
-        setUser(null);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    verifyAuth();
-  }, []);
-
-  // Login function: Sends credentials, expects cookie
-  const login = async (email, password) => {
+  // Cookie से user data fetch करने का function
+  const fetchUser = useCallback(async () => {
     try {
-      await axios.post(
-        '/api/v1/signin',
-        { email, password },
-        {
-          withCredentials: true,
-        }
-      );
-      const res = await axios.get('/api/v1/auth', {
+      const response = await axios.get('/api/v1/me', {
         withCredentials: true,
       });
-      if (res.data.success && res.data.authenticated) {
+
+      if (response.data.success && response.data.user) {
+        setUser(response.data.user);
         setIsAuthenticated(true);
-        setUser(res.data.user);
+        console.log('User fetched:', response.data.user);
+        // console.log(user);
+
       } else {
-        throw new Error('Authentication failed after signin');
+        // Handle case where API returns success but no user
+        setUser(null);
+        setIsAuthenticated(false);
       }
     } catch (error) {
-      console.error('Signin failed:', error.response?.data?.message || error.message);
-      setIsAuthenticated(false);
+      console.log('Fetch user error:', error.response?.data?.message || error.message);
+
+      // Only log out if it's an authentication error, not network error
+      if (error.response?.status === 401 || error.response?.status === 403) {
+        setUser(null);
+        setIsAuthenticated(false);
+      }
+      // For network errors, maintain current state
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+  console.log(user);
+
+  // Login function
+  const login = async (email, password) => {
+    try {
+      setLoading(true);
+
+      // Validate input
+      if (!email || !password) {
+        return {
+          success: false,
+          message: 'Email and password are required',
+        };
+      }
+
+      const response = await axios.post(
+        '/api/v1/signin',
+        { email: email.trim(), password },
+        { withCredentials: true }
+      );
+
+      if (response.data.success && response.data.user) {
+        setUser(response.data.user);
+        setIsAuthenticated(true);
+        console.log('Login successful:', response.data.user);
+        return {
+          success: true,
+          user: response.data.user,
+        };
+      } else {
+        // Handle unexpected response structure
+        setUser(null);
+        setIsAuthenticated(false);
+        return {
+          success: false,
+          message: 'Unexpected response from server',
+        };
+      }
+    } catch (error) {
+      console.error('Login failed:', error.response?.data?.message || error.message);
       setUser(null);
-      throw error;
+      setIsAuthenticated(false);
+
+      return {
+        success: false,
+        message: error.response?.data?.message || 'Login failed. Please try again.',
+      };
+    } finally {
+      setLoading(false);
     }
   };
 
   // Logout function
   const logout = async () => {
     try {
+      setLoading(true);
+
       await axios.post(
         '/api/v1/logout',
         {},
@@ -76,18 +108,64 @@ export const AuthProvider = ({ children }) => {
           withCredentials: true,
         }
       );
-      setIsAuthenticated(false);
-      setUser(null);
+
+      console.log('Logout successful');
     } catch (error) {
       console.error('Logout failed:', error.response?.data?.message || error.message);
+      // Continue with logout even if API call fails
+    } finally {
+      // Always reset auth state regardless of API call success
       setIsAuthenticated(false);
       setUser(null);
+      setLoading(false);
+
+      // Optional: Redirect to login page
+      // window.location.href = '/login';
     }
   };
 
-  return (
-    <AuthContext.Provider value={{ isAuthenticated, user, loading, login, logout,isopen,setIsOpen}}>
-      {children}
-    </AuthContext.Provider>
-  );
+  // Refresh user data function
+  const refreshUser = useCallback(async () => {
+    if (isAuthenticated) {
+      await fetchUser();
+    }
+  }, [fetchUser, isAuthenticated]);
+
+  // Component load होने पर cookie से user data fetch करो
+  useEffect(() => {
+    fetchUser();
+  }, [fetchUser]);
+
+  // Auto-refresh user data periodically (optional)
+  useEffect(() => {
+    if (isAuthenticated) {
+      const interval = setInterval(() => {
+        refreshUser();
+      }, 30 * 60 * 1000); // Refresh every 30 minutes
+
+      return () => clearInterval(interval);
+    }
+  }, [isAuthenticated, refreshUser]);
+
+  const contextValue = {
+    // State
+    isAuthenticated,
+    user,
+    loading,
+    isopen,
+
+    // Actions
+    login,
+    logout,
+    fetchUser,
+    refreshUser,
+    setIsOpen,
+
+    // Helper functions
+    isLoggedIn: () => isAuthenticated && !!user,
+    getUserId: () => user?._id,
+    getUserEmail: () => user?.email,
+  };
+
+  return <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>;
 };

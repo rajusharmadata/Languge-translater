@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { HiEye, HiEyeOff } from 'react-icons/hi';
+import { HiEye, HiEyeOff, HiLogin } from 'react-icons/hi';
 import { TbPasswordUser, TbPasswordFingerprint } from 'react-icons/tb';
 import { useLocation } from 'react-router-dom';
 import { Link } from 'react-router-dom';
 
+
 const Sinin = () => {
+
   const [formdata, setFormdata] = useState({
     email: '',
     password: '',
@@ -35,7 +37,7 @@ const Sinin = () => {
 
       // Axios response ke andar data hota hai
       const data = response;
-      console.log(data);
+      // console.log(data);
 
 
     } catch (error) {
@@ -48,6 +50,10 @@ const Sinin = () => {
     event.preventDefault(); // page reload nhi hone dega
     console.log(formdata); // cheak
     axiosHandler();
+
+
+    naviagte(redirectUrl);
+
   };
  return (
    <div className='h-screen flex justify-center items-center bg-gradient-to-br from-gray-900 via-black to-gray-800'>

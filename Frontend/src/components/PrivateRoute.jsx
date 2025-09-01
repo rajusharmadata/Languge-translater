@@ -7,6 +7,7 @@ const PrivateRoute = () => {
   if (loading) {
     return <div>Loading...</div>;
   }
+  console.log(isAuthenticated);
 
   return isAuthenticated ? (
     <Outlet />
