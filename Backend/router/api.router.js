@@ -1,6 +1,13 @@
 import { Router } from 'express';
 import { translateController } from '../controller/api.controller.js';
-import { EmailVerification, Verifyotp, Singin, logout } from '../controller/user.controller.js';
+import {
+  EmailVerification,
+  Verifyotp,
+  Singin,
+  logout,
+  frogotPassword,
+  resetpassword
+} from '../controller/user.controller.js';
 import { createOrder, verifypayment, checkSubscription } from '../controller/payment.controller.js';
 import { isAuthenticated } from '../middleware/auth.middleware.js';
 
@@ -12,6 +19,10 @@ router.post('/user', EmailVerification);
 router.post('/verify', Verifyotp);
 router.post('/signin', Singin);
 router.post('/logout', logout);
+router.post('/forgot-password', frogotPassword);
+router.post('/reset-password/:token', resetpassword);
+
+
 
 // Payment routes
 router.post('/create-order', createOrder);

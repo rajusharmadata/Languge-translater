@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Mail, ArrowLeft, CheckCircle, AlertCircle, Lock, Send } from 'lucide-react';
+import axios from 'axios';
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
@@ -33,24 +34,15 @@ const ForgotPassword = () => {
 
     try {
       // Replace with your actual password reset endpoint
-      const response = await fetch('/api/forgot-password', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email }),
+      const response = await axios.post('/api/v1/forgot-password', {
+        email: email,
       });
+      console.log(response);
 
-      // Simulate API call for demo
-      await new Promise(resolve => setTimeout(resolve, 2000));
-
-      if (response.ok ) {
         // Remove "|| true" in production
         setIsEmailSent(true);
         setSubmitStatus(null);
-      } else {
-        setSubmitStatus('Failed to send reset email. Please try again.');
-      }
+
     } catch (error) {
       setSubmitStatus('Network error. Please check your connection and try again.',error);
     } finally {

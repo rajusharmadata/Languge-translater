@@ -2,6 +2,9 @@ import User from '../models/user.model.js';
 import { sendEmail } from '../utils/sendEmail.js';
 import bcrypt from 'bcrypt';
 import { otpTemplate } from '../utils/emailTemplet.js';
+import { sendForgotPasswordEmail } from '../utils/forgotPasswordMail.js';
+import crypto from 'crypto'
+
 
 const EmailVerification = async (req, res) => {
   const { email ,name,password} = req.body;
@@ -40,9 +43,13 @@ const EmailVerification = async (req, res) => {
       otp: hashedOtp, // ✅ store hashed otp
       otpExpires,
     });
-    const emailTemplet = otpTemplate(otp,email)
+
     // send OTP email
-    await sendEmail(email,  otp);
+   await sendEmail({
+     to: email,
+     subject: 'For verified user',
+     html: otpTemplate(email, otp),
+   });
     // chack the validation again user email is exits
     if (!existingUser) {
     await user.save();
@@ -159,6 +166,66 @@ const Singin = async (req, res) => {
   }
 }
 
+const frogotPassword = async (req, res) => {
+ try {
+   const { email } = req.body;
+   const user = await User.findOne({ email });
+   if (!user) return res.status(404).json({ message: 'User not found' });
+
+   // generate reset token
+   const resetToken = crypto.randomBytes(32).toString('hex');
+   const resetTokenHash = crypto.createHash('sha256').update(resetToken).digest('hex');
+
+   user.resetPasswordToken = resetTokenHash;
+   user.resetPasswordExpire = Date.now() + 15 * 60 * 1000; // 15 min
+   await user.save();
+
+   const resetUrl = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`;
+   await sendForgotPasswordEmail(user.email, resetUrl);
+   console.log(user.email);
+   console.log(resetUrl);
+
+   res.json({
+     message: 'Reset link sent to your email',
+     success:true
+    });
+ } catch (err) {
+   res.status(500).json({ message: 'Server error' });
+ }
+
+}
+
+const resetpassword = async (req, res) => {
+try {
+  const { token } = req.params; // raw token from URL
+  const { password } = req.body;
+
+  // Hash the token to match DB
+  const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
+
+  // Find user with this hashed token and check if not expired
+  const user = await User.findOne({
+    resetPasswordToken: hashedToken,
+    resetPasswordExpire: { $gt: Date.now() },
+  });
+
+  if (!user) {
+    return res.status(400).json({ message: 'Invalid or expired token' });
+  }
+
+  // Set new password (your pre-save hook will hash it)
+  user.password = password;
+  user.resetPasswordToken = undefined;
+  user.resetPasswordExpire = undefined;
+
+  await user.save();
+
+  res.status(200).json({ message: 'Password reset successful' });
+} catch (err) {
+  res.status(500).json({ message: err.message });
+}
+  };
+
 
 
 
@@ -168,4 +235,4 @@ const logout = async (req, res)=>{
   res.json({ success: true, message: 'Logged out' });
 }
 
-export { EmailVerification, Verifyotp, Singin, logout };
+export { EmailVerification, Verifyotp, Singin, logout, frogotPassword, resetpassword };

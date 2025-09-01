@@ -13,7 +13,8 @@ const Sinin = () => {
     email: '',
     password: '',
   });
-  const[showPassowrd,setShowPassword] = useState(false)
+  const [showPassowrd, setShowPassword] = useState(false)
+  const[message,setMessage] = useState('')
   const naviagte = useNavigate();
   const location = useLocation();
 
@@ -36,8 +37,7 @@ const Sinin = () => {
       });
 
       // Axios response ke andar data hota hai
-      const data = response;
-      // console.log(data);
+      setMessage(response.data.message)
 
 
     } catch (error) {
@@ -61,6 +61,7 @@ const Sinin = () => {
        <h2 className='text-3xl font-bold text-center text-white mb-6 tracking-wide'>Sign in</h2>
        <form onSubmit={submitHandler} className='space-y-5'>
          {/* Email */}
+         {message && <p className='text-red-500 mb-2 text-center'>{message}</p>}
          <div>
            <label htmlFor='email' className='block text-sm font-medium relative text-gray-300 mb-2'>
              Email Address
@@ -93,7 +94,7 @@ const Sinin = () => {
              onChange={onChangeHandler}
              className='w-full px-4 pl-6 py-2 rounded-lg bg-gray-900/60 border border-gray-700 text-white placeholder-gray-400 focus:ring-2 focus:ring-blue-500 focus:outline-none'
            />
-           <Link to = '/frogetPassword'>
+           <Link to='/frogetPassword' className='text-white text-sm pl-60'>
              FrogotPassword
            </Link>
            <span
@@ -112,7 +113,13 @@ const Sinin = () => {
            Continue
          </button>
          <p className='text-white pl-15'>
-           if you don't have account  <span className = "hover:opacity-70 cursor-pointer text-gray-400" onClick={()=>naviagte('/signup')}>Signup</span>
+           if you don't have account{' '}
+           <span
+             className='hover:opacity-70 cursor-pointer text-gray-400'
+             onClick={() => naviagte('/signup')}
+           >
+             Signup
+           </span>
          </p>
        </form>
      </div>

@@ -19,7 +19,7 @@ const LoginNav = () => {
 
   return (
     <header className={`relative z-10  mb-20`}>
-      <nav className='flex justify-between w-full px-5 fixed  h-16 items-center bg-transparent'>
+      <nav className='flex justify-between w-full px-5 z-50  h-16 items-center bg-transparent'>
         {/* Logo */}
         <div className='flex items-center space-x-2'>
           <div className='w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-r from-blue-500 to-purple-600 rounded-lg flex items-center justify-center'>

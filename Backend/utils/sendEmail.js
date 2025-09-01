@@ -1,35 +1,41 @@
 import nodemailer from 'nodemailer';
-import { otpTemplate } from './emailTemplet.js';
 
-const sendEmail = async (to, otp) => {
+let transporter;
+
+const initTransporter = () => {
+  if (!transporter) {
+    transporter = nodemailer.createTransport({
+      host: 'smtp.gmail.com',
+      port: 465,
+      secure: true, // TLS
+      auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS,
+      },
+    });
+  }
+  return transporter;
+};
+
+const sendEmail = async ({ to, subject, html }) => {
   try {
     if (!to || !to.includes('@')) {
       throw new Error('Invalid recipient email');
     }
 
-    const transporter = nodemailer.createTransport({
-      host: 'smtp.gmail.com',
-      port: 465, // use 587 if secure=false
-      secure: true, // true = TLS
-      auth: {
-        user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS, // use app password
-      },
-    });
-
-    // optional check
-    await transporter.verify();
+    const transporter = initTransporter();
 
     await transporter.sendMail({
       from: `"TransLingo" <${process.env.EMAIL_USER}>`,
       to,
-      subject: 'Your OTP Code',
-      html: otpTemplate(to,otp),
+      subject,
+      html,
     });
 
     console.log('✅ Email sent to', to);
   } catch (error) {
     console.error('❌ Email error:', error.message);
+    throw error;
   }
 };
 

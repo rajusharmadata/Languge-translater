@@ -31,10 +31,17 @@ const userSchema = new mongoose.Schema(
       required: true,
       default: false,
     },
+    resetPasswordToken: {
+      type: String
+    }, // <-- add this
+    resetPasswordExpire: {
+      type: Date
+    },
     isPremium: { type: Boolean, default: false },
     subscriptionEndDate: Date,
     planType: String, // 'monthly' or 'yearly'
   },
+
   {
     timestamps: true,
   }
