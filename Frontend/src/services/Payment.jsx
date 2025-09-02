@@ -8,7 +8,7 @@ import { Crown, Check, X, Star, Shield, Zap, Globe, Clock, ArrowLeft } from 'luc
 
 const Payment = () => {
   const navigate = useNavigate();
-  const { user, setUser } = useContext(AuthContext);
+  const { user, setUser, loading, isAuthenticated } = useContext(AuthContext);
   const [isProcessing, setIsProcessing] = useState(false);
   const [selectedPlan, setSelectedPlan] = useState('yearly');
 
@@ -32,6 +32,12 @@ const Payment = () => {
 
   // Handle Razorpay payment
   const buyPlan = async planType => {
+    if (!user) {
+      alert('Please log in to purchase a plan.');
+      navigate('/signin');
+      return;
+    }
+
     setIsProcessing(true);
 
     try {
@@ -128,19 +134,30 @@ const Payment = () => {
     },
   ];
 
+  // Show loading state while fetching user data
+  if (loading) {
+    return (
+      <div className='h-screen flex justify-center items-center bg-gradient-to-br from-black via-gray-900 to-gray-800'>
+        <div className='text-center'>
+          <div className='animate-spin rounded-full h-12 w-12 border-b-2 border-yellow-400 mx-auto mb-4'></div>
+          <div className='text-white text-xl'>Loading...</div>
+        </div>
+      </div>
+    );
+  }
+
+  // Redirect to sign-in if not authenticated
+  if (!isAuthenticated || !user) {
+    navigate('/signin');
+    return null;
+  }
+
   return (
     <div className='min-h-screen bg-gradient-to-br from-black via-gray-900 to-gray-800'>
       {/* Header */}
       <div className='relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-6'>
         <div className='flex items-center justify-between'>
-          <button
-            onClick={() => navigate('/translate')}
-            className='flex items-center space-x-2 text-white/80 hover:text-white transition-colors'
-          >
-            <ArrowLeft className='w-5 h-5' />
-            <span>Back to Translator</span>
-          </button>
-
+    
           {user.isPremium && (
             <div className='flex items-center space-x-2 bg-gradient-to-r from-yellow-500 to-orange-500 text-white px-4 py-2 rounded-full text-sm font-bold'>
               <Crown className='w-4 h-4' />
@@ -336,12 +353,8 @@ const Payment = () => {
                 </>
               )}
             </button>
-
-
           </div>
         </div>
-
-      
       </main>
     </div>
   );

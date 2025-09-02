@@ -17,6 +17,7 @@ import NotFound from './components/NotFound';
 import PrivateRoute from './components/PrivateRoute';
 import Payment from './services/Payment';
 import ResetPassword from './services/RestPassword';
+import Profile from './services/Profile';
 
 
 const App = () => {
@@ -25,6 +26,7 @@ const App = () => {
       <Routes>
         <Route element={<PrivateRoute />}>
           <Route path='/translate' element={<Translate />} />
+          <Route path='/profile' element = {<Profile/>}/>
         </Route>
         <Route path='/' element={<Home />} />
         <Route path='/#about' element={<About />} />
