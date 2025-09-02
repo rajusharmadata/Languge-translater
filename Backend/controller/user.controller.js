@@ -124,7 +124,7 @@ const Singin = async (req, res) => {
     // check the exist user password match
     const isMatch = await existUser.comparePassword(password);
     if (!isMatch) {
-      res.status(401).json({
+     return res.status(401).json({
         success: false,
         message:"password is wrong "
       })
@@ -154,6 +154,7 @@ const Singin = async (req, res) => {
         name: existUser.name,
         email: existUser.email,
         isActive: existUser.isActive,
+        isPremium:existUser.isPremium,
       }
     })
 
