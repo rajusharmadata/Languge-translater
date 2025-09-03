@@ -21,7 +21,7 @@ const Price = () => {
         'Unlimited character translations',
         '120+ languages supported',
         'No advertisements',
-        'Translation history & favorites',
+
       ],
       button: 'Choose Monthly',
       highlight: false,
@@ -34,8 +34,8 @@ const Price = () => {
       period: '/year',
       features: [
         'Everything in Monthly plan',
-        '2 months completely FREE',
-        'Offline translation capability',
+        'Unlimited character translations',
+        '120+ languages supported',
       ],
       button: 'Choose Yearly',
       highlight: true,
@@ -48,7 +48,7 @@ const Price = () => {
   // Handle Razorpay payment
   const buyPlan = async planId => {
     if (!isAuthenticated || !user) {
-      alert('Please log in to purchase a plan.');
+
       navigate(`/signin?redirect_url=${encodeURIComponent('/#price')}`);
       return;
     }

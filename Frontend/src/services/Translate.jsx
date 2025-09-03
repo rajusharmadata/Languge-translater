@@ -149,7 +149,7 @@ const Translate = () => {
   }
 
   return (
-    <div className='min-h-screen bg-gradient-to-br from-black via-gray-900 to-gray-800 overflow-hidden'>
+    <div className='min-h-screen bg-gradient-to-br from-black via-purple-900 to-indigo-900 overflow-hidden'>
       <LoginNav />
 
       {/* Hero Section */}
@@ -376,7 +376,7 @@ const Translate = () => {
               </button>
               {!user?.isPremium && (
                 <button
-                  onClick={() => navigate('/price')}
+                  onClick={() => navigate('/payment')}
                   className='ml-0 sm:ml-4 mt-2 sm:mt-0 w-full sm:w-auto bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-400 hover:to-orange-400 text-white font-semibold py-2.5 sm:py-3 px-6 sm:px-8 rounded-lg transition-all duration-200 transform hover:scale-105 text-sm sm:text-base'
                   aria-label='Upgrade to Premium'
                 >

@@ -5,7 +5,7 @@ import { Globe, Zap, Shield, Users } from 'lucide-react'
 const About = () => {
   return (
     <div className="  text-white px-6 ">
-      <div className="max-w-4xl mx-auto text-center">
+      <div className=" mx-auto max-w-7xl text-center">
         <h1 className="text-4xl font-bold mb-4">About Our Translator</h1>
         <p className="text-lg text-gray-300 mb-12">
           Our AI-powered language translator helps you break down language
@@ -49,7 +49,7 @@ const About = () => {
         </div>
 
         <div className="mt-16">
-        
+
               </div>
               <div className='mt-10'>
         </div>

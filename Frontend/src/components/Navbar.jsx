@@ -7,9 +7,12 @@ import { AuthContext } from '../context/authcontext'
 
 
 const Navbar = () => {
-  const { isopen, setIsOpen } = useContext(AuthContext)
+  const { isopen, setIsOpen, isAuthenticated ,logout} = useContext(AuthContext);
 
-
+  const logoutHandler = () => {
+     setIsOpen(false);
+    logout()
+  }
   return (
     <div>
       {/* Header */}
@@ -85,14 +88,39 @@ const Navbar = () => {
                   >
                     About
                   </a>
-                
-                  <Link
-                    className=' className="w-full bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:from-purple-600 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-purple-400 transition-all duration-300  cursor-pointer'
-                    onClick={() => setIsOpen(false)}
-                    to={'/signin'}
-                  >
-                    Sign in
-                  </Link>
+                  {isAuthenticated ? (
+                    <div className='flex flex-col justify-center gap-3'>
+                      <Link
+                        className=' className="w-full bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:from-purple-600 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-purple-400 transition-all duration-300  cursor-pointer'
+                        onClick={() => setIsOpen(false)}
+                        to={'/profile'}
+                      >
+                        Profile
+                      </Link>
+                      <Link
+                        className=' className="w-full bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:from-purple-600 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-purple-400 transition-all duration-300  cursor-pointer'
+                        onClick={() => setIsOpen(false)}
+                        to={'/translate'}
+                      >
+                        translate
+                      </Link>
+                      <Link
+                        className=' className="w-full bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:from-purple-600 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-purple-400 transition-all duration-300  cursor-pointer'
+                        onClick={logoutHandler}
+
+                      >
+                        Logout
+                      </Link>
+                    </div>
+                  ) : (
+                    <Link
+                      className=' className="w-full bg-gradient-to-r from-purple-500 to-indigo-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:from-purple-600 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-purple-400 transition-all duration-300  cursor-pointer'
+                      onClick={() => setIsOpen(false)}
+                      to={'/signin'}
+                    >
+                      Sign in
+                    </Link>
+                  )}
                 </div>
               </div>
             </div>

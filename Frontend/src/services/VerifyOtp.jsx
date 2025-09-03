@@ -55,7 +55,7 @@ const VerifyOtp = () => {
   )
 
   return (
-    <div className='h-screen flex justify-center items-center bg-gradient-to-br from-gray-900 via-black to-gray-800'>
+    <div className='h-screen flex justify-center items-center bg-gradient-to-br from-black via-purple-900 to-indigo-900'>
       <div className='bg-gray-900/70 backdrop-blur-lg p-8 rounded-2xl shadow-lg border border-gray-700'>
         <h2 className='text-2xl font-bold text-center text-white mb-6'>Verify OTP</h2>
         <form onSubmit={handleSubmit} className='space-y-6'>

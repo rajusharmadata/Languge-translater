@@ -128,7 +128,7 @@ const SignIn = () => {
   // Show loading if AuthContext is still initializing
   if (loading && !isInitialLoadComplete()) {
     return (
-      <div className='h-screen flex justify-center items-center bg-gradient-to-br from-gray-900 via-black to-gray-800'>
+      <div className='h-screen flex justify-center items-center bg-gradient-to-br from-black via-purple-900 to-indigo-900'>
         <div className='text-center'>
           <div className='animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4'></div>
           <div className='text-white text-xl'>Loading...</div>
@@ -143,7 +143,7 @@ const SignIn = () => {
   const isError = displayMessage && !isSuccess;
 
   return (
-    <div className='h-screen flex justify-center items-center bg-gradient-to-br from-gray-900 via-black to-gray-800'>
+    <div className='h-screen flex justify-center items-center bg-gradient-to-br from-black via-purple-900 to-indigo-900'>
       <div className='w-96 py-10 bg-gradient-to-br from-gray-800/60 via-gray-900/60 to-black/60 backdrop-blur-xl shadow-xl rounded-2xl p-8 border border-gray-700/40'>
         <h2 className='text-3xl font-bold text-center text-white mb-6 tracking-wide'>Sign In</h2>
 
