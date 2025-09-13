@@ -147,7 +147,7 @@ const SignIn = () => {
   const isError = displayMessage && !isSuccess;
 
   return (
-    <div className="h-screen flex justify-center items-center bg-gradient-to-br from-black via-purple-900 to-indigo-900">
+    <div className="h-screen flex justify-center items-center bg-gradient-to-br from-black via-gray-900 to-gray-800">
       <div className="w-96 py-10 bg-gradient-to-br from-gray-800/60 via-gray-900/60 to-black/60 backdrop-blur-xl shadow-xl rounded-2xl p-8 border border-gray-700/40">
         <h2 className="text-3xl font-bold text-center text-white mb-6 tracking-wide">
           Sign In

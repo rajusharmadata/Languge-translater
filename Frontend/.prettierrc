@@ -1,4 +1,4 @@
- const pritter = {
+ {
   "semi": true,
   "singleQuote": true,
   "tabWidth": 2,
@@ -9,4 +9,4 @@
   "arrowParens": "always"
  }
 
- export default pritter
+

@@ -25,18 +25,18 @@ const Payment = () => {
   // Premium plans
   const plans = {
     monthly: {
-      price: 3.99,
+      price: 299,
       name: 'Monthly Premium',
       duration: '1 month',
-      originalPrice: 3.99,
+      originalPrice: 299,
       savings: null,
     },
     yearly: {
-      price: 39.99,
+      price: 4999,
       name: 'Yearly Premium',
       duration: '12 months',
-      originalPrice: 47.88,
-      savings: '$7.89',
+      originalPrice: 2999,
+      savings: '2000',
     },
   };
 
@@ -66,7 +66,7 @@ const Payment = () => {
       const options = {
         key: orderRes.data.keyId,
         amount: orderRes.data.amount,
-        currency: 'USD',
+        currency: 'IND',
         name: 'Language Translator Pro',
         description: plans[planType].name,
         order_id: orderRes.data.orderId,

@@ -15,7 +15,7 @@ const Price = () => {
     {
       id: 'monthly',
       name: 'Monthly Premium',
-      price: '$3.99',
+      price: '299',
       period: '/month',
       features: [
         'Unlimited character translations',
@@ -24,12 +24,12 @@ const Price = () => {
       ],
       button: 'Choose Monthly',
       highlight: false,
-      rawPrice: 3.99,
+      rawPrice: 299,
     },
     {
       id: 'yearly',
       name: 'Yearly Premium',
-      price: '$39.99',
+      price: '2999',
       period: '/year',
       features: [
         'Everything in Monthly plan',
@@ -38,9 +38,9 @@ const Price = () => {
       ],
       button: 'Choose Yearly',
       highlight: true,
-      rawPrice: 39.99,
-      savings: 'Save $7.89',
-      originalPrice: 47.88,
+      rawPrice: 2999,
+      savings: 'Save 2000',
+      originalPrice: 4999,
     },
   ];
 

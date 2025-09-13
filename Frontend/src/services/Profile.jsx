@@ -123,6 +123,11 @@ const Profile = () => {
                 title: '120+ Languages',
                 description: 'Access to all supported languages',
               },
+              {
+                icon: <Globe className="w-6 h-6" />,
+                title: '120+ Languages',
+                description: 'Access to all supported languages',
+              },
             ].map((benefit, index) => (
               <div
                 key={index}

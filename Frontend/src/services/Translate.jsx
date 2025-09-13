@@ -167,7 +167,7 @@ const Translate = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-black via-purple-900 to-indigo-900 overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-gray-800 overflow-hidden">
       <LoginNav />
 
       {/* Hero Section */}
