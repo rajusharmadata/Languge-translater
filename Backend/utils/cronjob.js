@@ -1,6 +1,6 @@
 import cron from 'node-cron';
 import axios from 'axios';
-const PING_URL = process.env.PING_URL || `http://localhost:${process.env.PORT}/ping`;
+const PING_URL = process.env.PING_URL || `http://localhost:8080/ping`;
 
 // Function to start cron pings
 const startSelfPing = ()=> {
