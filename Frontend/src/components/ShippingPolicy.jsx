@@ -5,7 +5,7 @@ import PolicyPage from './PolicyPage';
 const ShippingPolicy = () => {
   return (
     <PolicyPage
-      title='Shipping Policy'
+      title="Shipping Policy"
       content={[
         'We aim to deliver products within 7-10 business days.',
         'Shipping charges may vary based on location.',

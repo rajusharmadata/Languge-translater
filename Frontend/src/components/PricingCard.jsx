@@ -17,31 +17,33 @@ const PricingCard = ({
           : 'border-white/20 hover:border-yellow-500/30'
       } ${plan.highlight ? 'bg-gradient-to-br from-yellow-500/10 to-orange-500/10' : ''}`}
       onClick={() => onSelect(plan.id)}
-      role='button'
+      role="button"
       tabIndex={0}
-      onKeyDown={e => e.key === 'Enter' && onSelect(plan.id)}
+      onKeyDown={(e) => e.key === 'Enter' && onSelect(plan.id)}
       aria-label={`Select ${plan.name} plan`}
     >
       {/* Highlight Badge */}
       {plan.highlight && (
-        <div className='absolute -top-4 left-1/2 transform -translate-x-1/2'>
-          <span className='bg-gradient-to-r from-yellow-500 to-orange-500 text-white px-6 py-2 rounded-full text-sm font-bold shadow-lg'>
+        <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+          <span className="bg-gradient-to-r from-yellow-500 to-orange-500 text-white px-6 py-2 rounded-full text-sm font-bold shadow-lg">
             MOST POPULAR
           </span>
         </div>
       )}
 
-      <h2 className='text-2xl font-bold text-white mb-2'>{plan.name}</h2>
-      <div className='text-4xl font-bold text-white mb-1'>{plan.price}</div>
-      <span className='text-white/70'>{plan.period}</span>
+      <h2 className="text-2xl font-bold text-white mb-2">{plan.name}</h2>
+      <div className="text-4xl font-bold text-white mb-1">{plan.price}</div>
+      <span className="text-white/70">{plan.period}</span>
       {plan.savings && (
-        <div className='text-green-400 font-semibold text-lg mt-2'>{plan.savings}</div>
+        <div className="text-green-400 font-semibold text-lg mt-2">
+          {plan.savings}
+        </div>
       )}
 
-      <ul className='mt-6 space-y-4 text-left text-white/90'>
+      <ul className="mt-6 space-y-4 text-left text-white/90">
         {plan.features.map((feature, i) => (
-          <li key={i} className='flex items-start space-x-3'>
-            <Check className='w-5 h-5 text-green-500 mt-0.5 flex-shrink-0' />
+          <li key={i} className="flex items-start space-x-3">
+            <Check className="w-5 h-5 text-green-500 mt-0.5 flex-shrink-0" />
             <span>{feature}</span>
           </li>
         ))}
@@ -58,13 +60,13 @@ const PricingCard = ({
         aria-disabled={isProcessing || isPremium}
       >
         {isProcessing ? (
-          <div className='flex items-center justify-center space-x-2'>
-            <div className='w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin'></div>
+          <div className="flex items-center justify-center space-x-2">
+            <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
             <span>Processing...</span>
           </div>
         ) : isPremium ? (
           <>
-            <Crown className='w-5 h-5 inline mr-2' />
+            <Crown className="w-5 h-5 inline mr-2" />
             Already Premium
           </>
         ) : (

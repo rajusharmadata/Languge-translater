@@ -5,7 +5,7 @@ import PolicyPage from './PolicyPage';
 const ContactUs = () => {
   return (
     <PolicyPage
-      title='Contact Us'
+      title="Contact Us"
       content={[
         'If you have any questions, feedback, or need support, feel free to contact us.',
         '📧 Email: support@example.com',

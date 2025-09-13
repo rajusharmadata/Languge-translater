@@ -1,6 +1,5 @@
-import React from 'react'
-import { Globe, Zap, Shield, Users } from 'lucide-react'
-
+import React from 'react';
+import { Globe, Zap, Shield, Users } from 'lucide-react';
 
 const About = () => {
   return (
@@ -48,14 +47,11 @@ const About = () => {
           </div>
         </div>
 
-        <div className="mt-16">
-
-              </div>
-              <div className='mt-10'>
-        </div>
+        <div className="mt-16"></div>
+        <div className="mt-10"></div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default About
+export default About;

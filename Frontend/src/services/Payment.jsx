@@ -4,7 +4,17 @@ import { AuthContext } from '../context/authcontext';
 import axios from 'axios';
 
 // Lucide React Icons
-import { Crown, Check, X, Star, Shield, Zap, Globe, Clock, ArrowLeft } from 'lucide-react';
+import {
+  Crown,
+  Check,
+  X,
+  Star,
+  Shield,
+  Zap,
+  Globe,
+  Clock,
+  ArrowLeft,
+} from 'lucide-react';
 
 const Payment = () => {
   const navigate = useNavigate();
@@ -31,7 +41,7 @@ const Payment = () => {
   };
 
   // Handle Razorpay payment
-  const buyPlan = async planType => {
+  const buyPlan = async (planType) => {
     if (!user) {
       alert('Please log in to purchase a plan.');
       navigate('/signin');
@@ -71,7 +81,7 @@ const Payment = () => {
 
             if (verifyRes.data.success) {
               // Update user state
-              setUser(prev => ({ ...prev, isPremium: true }));
+              setUser((prev) => ({ ...prev, isPremium: true }));
 
               // Show success and redirect
               alert('🎉 Payment successful! You are now Premium!');
@@ -113,22 +123,22 @@ const Payment = () => {
 
   const features = [
     {
-      icon: <Zap className='w-6 h-6' />,
+      icon: <Zap className="w-6 h-6" />,
       title: 'Unlimited Translations',
       description: 'No character limits or daily restrictions',
     },
     {
-      icon: <Globe className='w-6 h-6' />,
+      icon: <Globe className="w-6 h-6" />,
       title: '120+ Languages',
       description: 'Access to all supported languages',
     },
     {
-      icon: <Shield className='w-6 h-6' />,
+      icon: <Shield className="w-6 h-6" />,
       title: 'Priority Support',
       description: 'Get help when you need it most',
     },
     {
-      icon: <Clock className='w-6 h-6' />,
+      icon: <Clock className="w-6 h-6" />,
       title: 'Translation History',
       description: 'Save and access your past translations',
     },
@@ -137,10 +147,13 @@ const Payment = () => {
   // Show loading state while fetching user data
   if (loading) {
     return (
-      <div className='h-screen flex justify-center items-center bg-gradient-to-br from-black via-gray-900 to-gray-800'>
-        <div className='text-center'>
-          <div className='animate-spin rounded-full h-12 w-12 border-b-2 border-yellow-400 mx-auto mb-4'></div>
-          <div className='text-white text-xl'>Loading...</div>
+      <div
+        className="h-screen flex justify-center items-center bg-gradient-to-tl from-black via-gray-800 to-gray-900
+"
+      >
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-yellow-400 mx-auto mb-4"></div>
+          <div className="text-white text-xl">Loading...</div>
         </div>
       </div>
     );
@@ -153,45 +166,44 @@ const Payment = () => {
   }
 
   return (
-    <div className='min-h-screen bg-gradient-to-br from-black via-gray-900 to-gray-800'>
+    <div className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-gray-800">
       {/* Header */}
-      <div className='relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-6'>
-        <div className='flex items-center justify-between'>
-    
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-6">
+        <div className="flex items-center justify-between">
           {user.isPremium && (
-            <div className='flex items-center space-x-2 bg-gradient-to-r from-yellow-500 to-orange-500 text-white px-4 py-2 rounded-full text-sm font-bold'>
-              <Crown className='w-4 h-4' />
+            <div className="flex items-center space-x-2 bg-gradient-to-r from-yellow-500 to-orange-500 text-white px-4 py-2 rounded-full text-sm font-bold">
+              <Crown className="w-4 h-4" />
               <span>PREMIUM USER</span>
             </div>
           )}
         </div>
       </div>
 
-      <main className='relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-8'>
+      <main className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 py-8">
         {/* Hero Section */}
-        <div className='text-center mb-12'>
-          <div className='flex justify-center mb-6'>
-            <div className='bg-gradient-to-r from-yellow-500 to-orange-500 p-4 rounded-full'>
-              <Crown className='w-12 h-12 text-white' />
+        <div className="text-center mb-12">
+          <div className="flex justify-center mb-6">
+            <div className="bg-gradient-to-r from-yellow-500 to-orange-500 p-4 rounded-full">
+              <Crown className="w-12 h-12 text-white" />
             </div>
           </div>
 
-          <h1 className='text-4xl sm:text-6xl font-bold text-white mb-6'>
+          <h1 className="text-4xl sm:text-6xl font-bold text-white mb-6">
             Upgrade to
-            <span className='bg-gradient-to-r from-yellow-400 to-orange-400 bg-clip-text text-transparent block sm:inline'>
+            <span className="bg-gradient-to-r from-yellow-400 to-orange-400 bg-clip-text text-transparent block sm:inline">
               {' '}
               Premium
             </span>
           </h1>
 
-          <p className='text-xl text-white/80 mb-8 max-w-2xl mx-auto'>
-            Unlock unlimited translations and premium features. Perfect for professionals, students,
-            and businesses.
+          <p className="text-xl text-white/80 mb-8 max-w-2xl mx-auto">
+            Unlock unlimited translations and premium features. Perfect for
+            professionals, students, and businesses.
           </p>
 
-          <div className='flex items-center justify-center space-x-6 text-white/60'>
-            <div className='flex items-center space-x-1'>
-              <Star className='w-5 h-5 fill-yellow-400 text-yellow-400' />
+          <div className="flex items-center justify-center space-x-6 text-white/60">
+            <div className="flex items-center space-x-1">
+              <Star className="w-5 h-5 fill-yellow-400 text-yellow-400" />
               <span>4.9 Rating</span>
             </div>
             <span>•</span>
@@ -202,27 +214,35 @@ const Payment = () => {
         </div>
 
         {/* Features Grid */}
-        <div className='grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12'>
+        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
           {features.map((feature, index) => (
             <div
               key={index}
-              className='bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20 text-center'
+              className="bg-white/10 backdrop-blur-lg rounded-2xl p-6 border border-white/20 text-center"
             >
-              <div className='flex justify-center mb-4 text-yellow-400'>{feature.icon}</div>
-              <h3 className='text-white font-semibold text-lg mb-2'>{feature.title}</h3>
-              <p className='text-white/70 text-sm'>{feature.description}</p>
+              <div className="flex justify-center mb-4 text-yellow-400">
+                {feature.icon}
+              </div>
+              <h3 className="text-white font-semibold text-lg mb-2">
+                {feature.title}
+              </h3>
+              <p className="text-white/70 text-sm">{feature.description}</p>
             </div>
           ))}
         </div>
 
         {/* Pricing Section */}
-        <div className='max-w-4xl mx-auto'>
-          <div className='text-center mb-8'>
-            <h2 className='text-3xl font-bold text-white mb-4'>Choose Your Plan</h2>
-            <p className='text-white/70'>Select the plan that works best for you</p>
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-8">
+            <h2 className="text-3xl font-bold text-white mb-4">
+              Choose Your Plan
+            </h2>
+            <p className="text-white/70">
+              Select the plan that works best for you
+            </p>
           </div>
 
-          <div className='grid md:grid-cols-2 gap-8 mb-8'>
+          <div className="grid md:grid-cols-2 gap-8 mb-8">
             {/* Monthly Plan */}
             <div
               className={`relative bg-white/10 backdrop-blur-lg rounded-3xl p-8 border transition-all duration-300 cursor-pointer ${
@@ -232,33 +252,43 @@ const Payment = () => {
               }`}
               onClick={() => setSelectedPlan('monthly')}
             >
-              <div className='text-center'>
-                <h3 className='text-2xl font-bold text-white mb-2'>Monthly</h3>
-                <div className='text-4xl font-bold text-white mb-6'>
+              <div className="text-center">
+                <h3 className="text-2xl font-bold text-white mb-2">Monthly</h3>
+                <div className="text-4xl font-bold text-white mb-6">
                   ${plans.monthly.price}
-                  <span className='text-lg text-white/70 font-normal'>/month</span>
+                  <span className="text-lg text-white/70 font-normal">
+                    /month
+                  </span>
                 </div>
 
-                <ul className='space-y-4 text-left mb-8'>
-                  <li className='flex items-start space-x-3'>
-                    <Check className='w-5 h-5 text-green-400 mt-0.5 flex-shrink-0' />
-                    <span className='text-white/90'>Unlimited character translations</span>
+                <ul className="space-y-4 text-left mb-8">
+                  <li className="flex items-start space-x-3">
+                    <Check className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" />
+                    <span className="text-white/90">
+                      Unlimited character translations
+                    </span>
                   </li>
-                  <li className='flex items-start space-x-3'>
-                    <Check className='w-5 h-5 text-green-400 mt-0.5 flex-shrink-0' />
-                    <span className='text-white/90'>120+ languages supported</span>
+                  <li className="flex items-start space-x-3">
+                    <Check className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" />
+                    <span className="text-white/90">
+                      120+ languages supported
+                    </span>
                   </li>
-                  <li className='flex items-start space-x-3'>
-                    <Check className='w-5 h-5 text-green-400 mt-0.5 flex-shrink-0' />
-                    <span className='text-white/90'>No advertisements</span>
+                  <li className="flex items-start space-x-3">
+                    <Check className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" />
+                    <span className="text-white/90">No advertisements</span>
                   </li>
-                  <li className='flex items-start space-x-3'>
-                    <Check className='w-5 h-5 text-green-400 mt-0.5 flex-shrink-0' />
-                    <span className='text-white/90'>Priority customer support</span>
+                  <li className="flex items-start space-x-3">
+                    <Check className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" />
+                    <span className="text-white/90">
+                      Priority customer support
+                    </span>
                   </li>
-                  <li className='flex items-start space-x-3'>
-                    <Check className='w-5 h-5 text-green-400 mt-0.5 flex-shrink-0' />
-                    <span className='text-white/90'>Translation history & favorites</span>
+                  <li className="flex items-start space-x-3">
+                    <Check className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" />
+                    <span className="text-white/90">
+                      Translation history & favorites
+                    </span>
                   </li>
                 </ul>
               </div>
@@ -274,47 +304,57 @@ const Payment = () => {
               onClick={() => setSelectedPlan('yearly')}
             >
               {/* Best Value Badge */}
-              <div className='absolute -top-4 left-1/2 transform -translate-x-1/2'>
-                <span className='bg-gradient-to-r from-yellow-500 to-orange-500 text-white px-6 py-2 rounded-full text-sm font-bold shadow-lg'>
+              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                <span className="bg-gradient-to-r from-yellow-500 to-orange-500 text-white px-6 py-2 rounded-full text-sm font-bold shadow-lg">
                   MOST POPULAR
                 </span>
               </div>
 
-              <div className='text-center'>
-                <h3 className='text-2xl font-bold text-white mb-2'>Yearly</h3>
-                <div className='mb-4'>
-                  <div className='text-4xl font-bold text-white'>
+              <div className="text-center">
+                <h3 className="text-2xl font-bold text-white mb-2">Yearly</h3>
+                <div className="mb-4">
+                  <div className="text-4xl font-bold text-white">
                     ${plans.yearly.price}
-                    <span className='text-lg text-white/70 font-normal'>/year</span>
+                    <span className="text-lg text-white/70 font-normal">
+                      /year
+                    </span>
                   </div>
-                  <div className='text-white/50 line-through text-lg'>
+                  <div className="text-white/50 line-through text-lg">
                     ${plans.yearly.originalPrice}
                   </div>
-                  <div className='text-green-400 font-semibold text-lg'>
+                  <div className="text-green-400 font-semibold text-lg">
                     Save {plans.yearly.savings}!
                   </div>
                 </div>
 
-                <ul className='space-y-4 text-left mb-8'>
-                  <li className='flex items-start space-x-3'>
-                    <Check className='w-5 h-5 text-green-400 mt-0.5 flex-shrink-0' />
-                    <span className='text-white/90'>Everything in Monthly plan</span>
+                <ul className="space-y-4 text-left mb-8">
+                  <li className="flex items-start space-x-3">
+                    <Check className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" />
+                    <span className="text-white/90">
+                      Everything in Monthly plan
+                    </span>
                   </li>
-                  <li className='flex items-start space-x-3'>
-                    <Check className='w-5 h-5 text-green-400 mt-0.5 flex-shrink-0' />
-                    <span className='text-white/90'>2 months completely FREE</span>
+                  <li className="flex items-start space-x-3">
+                    <Check className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" />
+                    <span className="text-white/90">
+                      2 months completely FREE
+                    </span>
                   </li>
-                  <li className='flex items-start space-x-3'>
-                    <Check className='w-5 h-5 text-green-400 mt-0.5 flex-shrink-0' />
-                    <span className='text-white/90'>Offline translation capability</span>
+                  <li className="flex items-start space-x-3">
+                    <Check className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" />
+                    <span className="text-white/90">
+                      Offline translation capability
+                    </span>
                   </li>
-                  <li className='flex items-start space-x-3'>
-                    <Check className='w-5 h-5 text-green-400 mt-0.5 flex-shrink-0' />
-                    <span className='text-white/90'>Custom dictionaries</span>
+                  <li className="flex items-start space-x-3">
+                    <Check className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" />
+                    <span className="text-white/90">Custom dictionaries</span>
                   </li>
-                  <li className='flex items-start space-x-3'>
-                    <Check className='w-5 h-5 text-green-400 mt-0.5 flex-shrink-0' />
-                    <span className='text-white/90'>API access for developers</span>
+                  <li className="flex items-start space-x-3">
+                    <Check className="w-5 h-5 text-green-400 mt-0.5 flex-shrink-0" />
+                    <span className="text-white/90">
+                      API access for developers
+                    </span>
                   </li>
                 </ul>
               </div>
@@ -322,7 +362,7 @@ const Payment = () => {
           </div>
 
           {/* Purchase Button */}
-          <div className='text-center'>
+          <div className="text-center">
             <button
               onClick={() => buyPlan(selectedPlan)}
               disabled={isProcessing || user.isPremium}
@@ -333,20 +373,20 @@ const Payment = () => {
               }`}
             >
               {isProcessing ? (
-                <div className='flex items-center justify-center space-x-2'>
-                  <div className='w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin'></div>
+                <div className="flex items-center justify-center space-x-2">
+                  <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
                   <span>Processing...</span>
                 </div>
               ) : user.isPremium ? (
                 <>
-                  <Crown className='w-5 h-5 inline mr-2' />
+                  <Crown className="w-5 h-5 inline mr-2" />
                   Already Premium
                 </>
               ) : (
                 <>
                   Get Premium - ${plans[selectedPlan].price}
                   {selectedPlan === 'yearly' && (
-                    <span className='block text-sm font-normal opacity-90'>
+                    <span className="block text-sm font-normal opacity-90">
                       Save {plans.yearly.savings} compared to monthly
                     </span>
                   )}

@@ -1,39 +1,35 @@
 import React from 'react';
-import { Zap, Globe, Shield, Users } from 'lucide-react'
-
-
-
+import { Zap, Globe, Shield, Users } from 'lucide-react';
 
 const FeatureCard = () => {
+  const Feature = [
+    {
+      // Fast translation capability
+      icon: <Zap className="w-6 h-6" />,
+      title: 'Lightning Fast',
+      description: 'Get instant translations powered by advanced AI technology',
+    },
+    {
+      // Wide language support
+      icon: <Globe className="w-6 h-6" />,
+      title: '120+ Languages',
+      description: 'Translate between over 120 languages with high accuracy',
+    },
+    {
+      // Emphasis on user privacy
+      icon: <Shield className="w-6 h-6" />,
+      title: 'Privacy First',
+      description: 'Your text is never stored. Complete privacy guaranteed',
+    },
+    {
+      // Collaboration feature
+      icon: <Users className="w-6 h-6" />,
+      title: 'Team Collaboration',
+      description: 'Share translations with your team and work together',
+    },
+  ];
 
-const Feature = [
-  {
-    // Fast translation capability
-    icon: <Zap className="w-6 h-6" />,
-    title: 'Lightning Fast',
-    description: 'Get instant translations powered by advanced AI technology',
-  },
-  {
-    // Wide language support
-    icon: <Globe className="w-6 h-6" />,
-    title: '120+ Languages',
-    description: 'Translate between over 120 languages with high accuracy',
-  },
-  {
-    // Emphasis on user privacy
-    icon: <Shield className="w-6 h-6" />,
-    title: 'Privacy First',
-    description: 'Your text is never stored. Complete privacy guaranteed',
-  },
-  {
-    // Collaboration feature
-    icon: <Users className="w-6 h-6" />,
-    title: 'Team Collaboration',
-    description: 'Share translations with your team and work together',
-  },
-]
-
-// Exporting so it can be imported and rendered elsewhere
+  // Exporting so it can be imported and rendered elsewhere
 
   return (
     <div>
@@ -65,7 +61,7 @@ const Feature = [
         </div>
       </div>
     </div>
-  )
+  );
 };
 
 export default FeatureCard;

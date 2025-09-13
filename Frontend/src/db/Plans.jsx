@@ -37,6 +37,6 @@ const plans = [
     button: 'Contact Us',
     highlight: false,
   },
-]
+];
 
-export default plans
+export default plans;

@@ -1,6 +1,12 @@
-import React, { createContext, useState, useEffect, useCallback, useMemo, useRef } from 'react';
+import React, {
+  createContext,
+  useState,
+  useEffect,
+  useCallback,
+  useMemo,
+  useRef,
+} from 'react';
 import axios from 'axios';
-
 
 // Configure axios defaults
 axios.defaults.withCredentials = true;
@@ -14,7 +20,6 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true); // Start with true for initial load
   const [isopen, setIsOpen] = useState(true);
   const [error, setError] = useState(null); // Add error state
-
 
   // Track if we've already tried to fetch user on initial load
   const [initialFetchComplete, setInitialFetchComplete] = useState(false);
@@ -89,14 +94,18 @@ export const AuthProvider = ({ children }) => {
           };
         }
       } catch (error) {
-        console.log('Fetch user error:', error.response?.data?.message || error.message);
+        console.log(
+          'Fetch user error:',
+          error.response?.data?.message || error.message
+        );
 
         let errorMessage = 'Failed to fetch user data';
         let shouldClearAuth = false;
 
         if (error.response) {
           // Server responded with error
-          errorMessage = error.response.data?.message || 'Server error occurred';
+          errorMessage =
+            error.response.data?.message || 'Server error occurred';
 
           // Only clear auth on 401/403 errors
           if (error.response.status === 401 || error.response.status === 403) {
@@ -202,7 +211,8 @@ export const AuthProvider = ({ children }) => {
         console.log('Server error:', error.response.data);
       } else if (error.request) {
         // Network error
-        errorMessage = 'Network error. Please check your connection and try again.';
+        errorMessage =
+          'Network error. Please check your connection and try again.';
         console.log('Network error');
       } else {
         // Other errors
@@ -229,7 +239,11 @@ export const AuthProvider = ({ children }) => {
       setError(null);
 
       // Make logout API call
-      const response = await axios.post('/api/v1/logout', {}, { withCredentials: true });
+      const response = await axios.post(
+        '/api/v1/logout',
+        {},
+        { withCredentials: true }
+      );
 
       console.log('Logout successful');
 
@@ -238,7 +252,10 @@ export const AuthProvider = ({ children }) => {
         message: response.data?.message || 'Logout successful',
       };
     } catch (error) {
-      console.error('Logout failed:', error.response?.data?.message || error.message);
+      console.error(
+        'Logout failed:',
+        error.response?.data?.message || error.message
+      );
 
       const errorMessage = error.response?.data?.message || 'Logout failed';
       setError(errorMessage);
@@ -266,7 +283,7 @@ export const AuthProvider = ({ children }) => {
   }, [fetchUser, isAuthenticated]);
 
   // Retry function for failed operations
-  const retry = useCallback(async operation => {
+  const retry = useCallback(async (operation) => {
     setError(null);
     return await operation();
   }, []);
@@ -286,7 +303,9 @@ export const AuthProvider = ({ children }) => {
 
     // Check if user is active (has interacted recently)
     const checkUserActivity = async () => {
-      const lastActivity = parseInt(localStorage.getItem('lastActivity') || '0');
+      const lastActivity = parseInt(
+        localStorage.getItem('lastActivity') || '0'
+      );
       const now = Date.now();
 
       // If user was active in last 10 minutes, refresh data
@@ -307,8 +326,15 @@ export const AuthProvider = ({ children }) => {
     };
 
     // Listen for user interactions
-    const events = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart', 'click'];
-    events.forEach(event => {
+    const events = [
+      'mousedown',
+      'mousemove',
+      'keypress',
+      'scroll',
+      'touchstart',
+      'click',
+    ];
+    events.forEach((event) => {
       document.addEventListener(event, trackActivity, { passive: true });
     });
 
@@ -319,7 +345,7 @@ export const AuthProvider = ({ children }) => {
       if (interval) clearInterval(interval);
 
       // Remove event listeners
-      events.forEach(event => {
+      events.forEach((event) => {
         document.removeEventListener(event, trackActivity);
       });
     };
@@ -369,7 +395,9 @@ export const AuthProvider = ({ children }) => {
     ]
   );
 
-  return <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={contextValue}>{children}</AuthContext.Provider>
+  );
 };
 
 // Custom hook with better error handling
@@ -384,38 +412,41 @@ export const useAuth = () => {
 };
 
 // Enhanced HOC for protected routes with error handling
-export const withAuth = Component => {
+export const withAuth = (Component) => {
   return function AuthenticatedComponent(props) {
-    const { isAuthenticated, loading, error, clearError, retry, fetchUser } = useAuth();
+    const { isAuthenticated, loading, error, clearError, retry, fetchUser } =
+      useAuth();
 
     if (loading) {
       return (
-        <div className='loader'>
-          <div className='box1'></div>
-          <div className='box2'></div>
-          <div className='box3'></div>
+        <div className="loader">
+          <div className="box1"></div>
+          <div className="box2"></div>
+          <div className="box3"></div>
         </div>
       );
     }
 
     if (error && !isAuthenticated) {
       return (
-        <div className='h-screen flex justify-center items-center bg-gradient-to-br from-gray-900 via-black to-gray-800'>
-          <div className='text-center max-w-md mx-auto p-8'>
-            <div className='bg-red-500/20 border border-red-500/50 text-red-200 px-6 py-4 rounded-lg mb-6'>
-              <h3 className='text-lg font-semibold mb-2'>Authentication Error</h3>
-              <p className='text-sm'>{error}</p>
+        <div className="h-screen flex justify-center items-center bg-gradient-to-br from-gray-900 via-black to-gray-800">
+          <div className="text-center max-w-md mx-auto p-8">
+            <div className="bg-red-500/20 border border-red-500/50 text-red-200 px-6 py-4 rounded-lg mb-6">
+              <h3 className="text-lg font-semibold mb-2">
+                Authentication Error
+              </h3>
+              <p className="text-sm">{error}</p>
             </div>
-            <div className='space-x-4'>
+            <div className="space-x-4">
               <button
                 onClick={() => retry(fetchUser)}
-                className='bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors'
+                className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors"
               >
                 Retry
               </button>
               <button
                 onClick={clearError}
-                className='bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg transition-colors'
+                className="bg-gray-600 hover:bg-gray-700 text-white px-4 py-2 rounded-lg transition-colors"
               >
                 Dismiss
               </button>
