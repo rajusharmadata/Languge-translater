@@ -10,7 +10,7 @@ import axios from 'axios';
 
 // Configure axios defaults
 axios.defaults.withCredentials = true;
-axios.defaults.baseURL = 'http://localhost:8080';
+axios.defaults.baseURL = 'https://languge-translater.onrender.com';
 
 export const AuthContext = createContext();
 

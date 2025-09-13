@@ -31,13 +31,20 @@ const Signup = () => {
       console.log(error);
     }
   };
+const submitHandler = async (event) => {
+  event.preventDefault();
+  console.log(formdata);
 
-  const submitHandler = (event) => {
-    event.preventDefault(); // page reload nhi hone dega
-    console.log(formdata); // cheak
-    axiosHandler();
-    naviagte('/verify');
-  };
+  try {
+    const data = await axiosHandler(); // wait for API
+    console.log('Signup success:', data);
+    naviagte('/verify'); // navigate only if signup successful
+  } catch (error) {
+    console.error('Signup failed', error);
+    // You can show an error message to user here
+  }
+};
+
 
   return (
     <div className="h-screen flex justify-center items-center bg-gradient-to-br from-black via-gray-900 to-gray-800">

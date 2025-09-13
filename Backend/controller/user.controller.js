@@ -12,13 +12,14 @@ const EmailVerification = async (req, res) => {
     if (!email || !name || !password) {
       return res.status(400).json({
         success: false,
-        message: 'Valid email is required',
+        message: 'Email, name and password are required',
       });
     }
 
     // check if user exists
-    const existingUser = await User.findOne({ email });
-    if (existingUser && existingUser.isActive) {
+    let user = await User.findOne({ email });
+
+    if (user && user.isActive) {
       return res.status(409).json({
         success: false,
         message: 'User already exists',
@@ -28,44 +29,53 @@ const EmailVerification = async (req, res) => {
     // generate OTP
     const otp = Math.floor(100000 + Math.random() * 900000).toString();
 
-    // hash OTP before saving
+    // hash OTP
     const salt = await bcrypt.genSalt(10);
     const hashedOtp = await bcrypt.hash(otp, salt);
+    const otpExpires = Date.now() + 5 * 60 * 1000; // 5 minutes
 
-    const otpExpires = Date.now() + 5 * 60 * 1000;
+    // hash password
+    const hashedPassword = await bcrypt.hash(password, salt);
 
-    // create user
-    const user = new User({
-      email,
-      name,
-      password,
-      otp: hashedOtp, // ✅ store hashed otp
-      otpExpires,
-    });
+    if (!user) {
+      // create new user
+      user = new User({
+        email,
+        name,
+        password: hashedPassword,
+        otp: hashedOtp,
+        otpExpires,
+        isActive: false,
+      });
+    } else {
+      // update OTP for existing inactive user
+      user.otp = hashedOtp;
+      user.otpExpires = otpExpires;
+      user.password = hashedPassword; // optional: update password
+    }
+
+    await user.save();
 
     // send OTP email
     await sendEmail({
       to: email,
-      subject: 'For verified user',
+      subject: 'Verify your email',
       html: otpTemplate(email, otp),
     });
-    // chack the validation again user email is exits
-    if (!existingUser) {
-      await user.save();
-    }
 
     return res.status(201).json({
       success: true,
       message: 'OTP sent to your email. Please verify within 5 minutes.',
     });
   } catch (err) {
-    console.log('email created error ', err);
-    res.status(500).json({
+    console.error('Email creation error:', err);
+    return res.status(500).json({
       success: false,
       message: 'User creation error',
     });
   }
 };
+
 const Verifyotp = async (req, res) => {
   const { email, otp } = req.body;
   // validation check
