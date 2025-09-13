@@ -1,7 +1,6 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
-import jwt from 'jsonwebtoken'
-
+import jwt from 'jsonwebtoken';
 
 const userSchema = new mongoose.Schema(
   {
@@ -32,10 +31,10 @@ const userSchema = new mongoose.Schema(
       default: false,
     },
     resetPasswordToken: {
-      type: String
+      type: String,
     }, // <-- add this
     resetPasswordExpire: {
-      type: Date
+      type: Date,
     },
     isPremium: { type: Boolean, default: false },
     subscriptionEndDate: Date,
@@ -67,15 +66,15 @@ userSchema.methods.comparePassword = async function (password) {
 // ✅ generate jwt token
 userSchema.methods.generatejwToken = async function (payload) {
   try {
-    return  await jwt.sign(payload, process.env.JWT_SECRET, {
-    expiresIn: '24h'
-  });
+    return await jwt.sign(payload, process.env.JWT_SECRET, {
+      expiresIn: '24h',
+    });
   } catch (err) {
     console.log(`token generate error ${err}`);
   }
-}
+};
 // Add this method to your userSchema (after your existing methods)
-userSchema.methods.checkSubscriptionStatus = function() {
+userSchema.methods.checkSubscriptionStatus = function () {
   if (this.subscriptionEndDate && this.subscriptionEndDate > new Date()) {
     this.isPremium = true;
   } else {

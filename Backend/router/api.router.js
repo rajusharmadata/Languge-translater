@@ -6,9 +6,13 @@ import {
   Singin,
   logout,
   frogotPassword,
-  resetpassword
+  resetpassword,
 } from '../controller/user.controller.js';
-import { createOrder, verifypayment, checkSubscription } from '../controller/payment.controller.js';
+import {
+  createOrder,
+  verifypayment,
+  checkSubscription,
+} from '../controller/payment.controller.js';
 import { isAuthenticated } from '../middleware/auth.middleware.js';
 
 const router = Router();
@@ -21,8 +25,6 @@ router.post('/signin', Singin);
 router.post('/logout', logout);
 router.post('/forgot-password', frogotPassword);
 router.post('/reset-password/:token', resetpassword);
-
-
 
 // Payment routes
 router.post('/create-order', createOrder);
@@ -45,8 +47,5 @@ router.get('/me', isAuthenticated, (req, res) => {
     });
   }
 });
-
-
-
 
 export { router };

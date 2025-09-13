@@ -13,7 +13,7 @@ export const forgotPasswordMail = (to, resetUrl) => `
 `;
 
 const sendForgotPasswordEmail = async (to, resetUrl) => {
-   console.log('to',to);
+  console.log('to', to);
   return sendEmail({
     to,
     subject: 'Reset Your Password - TransLingo',
@@ -21,4 +21,4 @@ const sendForgotPasswordEmail = async (to, resetUrl) => {
   });
 };
 
-export {sendForgotPasswordEmail}
+export { sendForgotPasswordEmail };

@@ -3,7 +3,7 @@ import translate from 'translate';
 const translateController = async (req, res) => {
   try {
     const { l1, l2, text } = req.body;
-    console.log(l1,l2,text);
+    console.log(l1, l2, text);
 
     if (!l1 || !l2 || !text) {
       return res.status(400).json({

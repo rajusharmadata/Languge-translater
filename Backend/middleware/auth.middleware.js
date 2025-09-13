@@ -19,7 +19,9 @@ export const isAuthenticated = async (req, res, next) => {
 
     // Find user by email instead of ID
     // Fix: Correct .select() syntax
-    const user = await User.findOne({ email: decoded.email }).select('-password -otpExpires ');
+    const user = await User.findOne({ email: decoded.email }).select(
+      '-password -otpExpires '
+    );
 
     if (!user) {
       return res.status(401).json({

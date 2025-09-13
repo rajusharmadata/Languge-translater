@@ -2,7 +2,6 @@ import Razorpay from 'razorpay';
 import crypto from 'crypto';
 import User from '../models/user.model.js';
 
-
 // Create Order Function
 export const createOrder = async (req, res) => {
   // Initialize Razorpay with your keys
@@ -57,13 +56,21 @@ export const createOrder = async (req, res) => {
 // Verify Payment Function
 export const verifypayment = async (req, res) => {
   try {
-    const { razorpay_order_id, razorpay_payment_id, razorpay_signature, userId, planType } =
-      req.body;
+    const {
+      razorpay_order_id,
+      razorpay_payment_id,
+      razorpay_signature,
+      userId,
+      planType,
+    } = req.body;
 
     // Create signature for verification
     const sign = razorpay_order_id + '|' + razorpay_payment_id;
     const expectedSign = crypto
-      .createHmac('sha256', process.env.RAZORPAY_KEY_SECRET || 'your_secret_key')
+      .createHmac(
+        'sha256',
+        process.env.RAZORPAY_KEY_SECRET || 'your_secret_key'
+      )
       .update(sign.toString())
       .digest('hex');
 
