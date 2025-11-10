@@ -1,11 +1,11 @@
-import User from '../models/user.model.js';
-import { sendEmail } from '../utils/sendEmail.js';
 import bcrypt from 'bcrypt';
+import crypto from 'crypto';
+import User from '../models/user.model.js';
 import { otpTemplate } from '../utils/emailTemplet.js';
 import { sendForgotPasswordEmail } from '../utils/forgotPasswordMail.js';
-import crypto from 'crypto';
+import { sendEmail } from '../utils/sendEmail.js';
 
-const EmailVerification = async (req, res) => {
+const gmailEmailVerification = async (req, res) => {
   const { email, name, password } = req.body;
 
   try {
@@ -63,7 +63,7 @@ const EmailVerification = async (req, res) => {
       html: otpTemplate(email, otp),
     });
 
-    return res.status(201).json({
+    return res.status(200).json({
       success: true,
       message: 'OTP sent to your email. Please verify within 5 minutes.',
     });
@@ -246,10 +246,10 @@ const logout = async (req, res) => {
 };
 
 export {
-  EmailVerification,
-  Verifyotp,
-  Singin,
-  logout,
+  gmailEmailVerification,
   frogotPassword,
+  logout,
   resetpassword,
+  Singin,
+  Verifyotp,
 };

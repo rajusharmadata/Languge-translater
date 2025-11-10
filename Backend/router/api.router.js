@@ -1,25 +1,25 @@
 import { Router } from 'express';
 import { translateController } from '../controller/api.controller.js';
 import {
-  EmailVerification,
-  Verifyotp,
-  Singin,
-  logout,
-  frogotPassword,
-  resetpassword,
-} from '../controller/user.controller.js';
-import {
+  checkSubscription,
   createOrder,
   verifypayment,
-  checkSubscription,
 } from '../controller/payment.controller.js';
+import {
+  gmailEmailVerification,
+  Singin,
+  Verifyotp,
+  frogotPassword,
+  logout,
+  resetpassword,
+} from '../controller/user.controller.js';
 import { isAuthenticated } from '../middleware/auth.middleware.js';
 
 const router = Router();
 
 // Public routes
 router.post('/translate', translateController);
-router.post('/user', EmailVerification);
+router.post('/user', gmailEmailVerification);
 router.post('/verify', Verifyotp);
 router.post('/signin', Singin);
 router.post('/logout', logout);

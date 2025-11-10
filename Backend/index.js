@@ -1,11 +1,11 @@
-import dotenv from 'dotenv';
-dotenv.config({ path: '.env' }); // should be here
 import cookieParser from 'cookie-parser';
-import express from 'express';
 import cors from 'cors';
+import dotenv from 'dotenv';
+import express from 'express';
 import { dbConnection } from './db/db.js';
 import { router } from './router/api.router.js';
-import {startSelfPing} from './utils/cronjob.js'
+import { startSelfPing } from './utils/cronjob.js';
+dotenv.config({ path: '.env' }); // should be here
 
 const app = express();
 
@@ -51,5 +51,5 @@ app.listen(port, () => {
     `🌐 Frontend URL: ${process.env.FRONTEND_URL || 'http://localhost:5173'}`
   );
   console.log(`📡 Backend URL: http://localhost:${port}`);
-  startSelfPing()
+  startSelfPing();
 });
