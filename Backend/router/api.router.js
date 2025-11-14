@@ -15,6 +15,7 @@ import {
 } from '../controller/user.controller.js';
 import { isAuthenticated } from '../middleware/auth.middleware.js';
 
+
 const router = Router();
 
 // Public routes
