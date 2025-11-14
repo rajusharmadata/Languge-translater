@@ -21,7 +21,7 @@ const Signup = () => {
   // post api
   const axiosHandler = async () => {
     try {
-      const response = axios.post('/api/v1/user', {
+      const response =  axios.post('/api/v1/user', {
         name: formdata.name,
         email: formdata.email,
         password: formdata.password,
